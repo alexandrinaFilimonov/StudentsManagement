@@ -18,6 +18,28 @@ showAll = function (students) {
     });
 }
 
+showFinanced = function () {
+    alert('financed');
+}
+
+showFeePayer = function () {
+    alert('fee-payer');
+}
+
+showPromotion = function () {
+    alert('promotion');
+}
+
 $(document).ready(function () {
-    var students = StudentService.GetAll(showAll)
+    StudentService.GetAll(showAll)
+
+    $('#financed').click(function () {
+        StudentService.GetByParameter("Financed", showFinanced);
+    });
+    $('#fee-payer').click(function () {
+        StudentService.GetByParameter("FeePayer", showFeePayer);
+    });
+    $('#promotion').click(function () {
+        StudentService.GetByParameter("Promotion", showPromotion);
+    });
 });

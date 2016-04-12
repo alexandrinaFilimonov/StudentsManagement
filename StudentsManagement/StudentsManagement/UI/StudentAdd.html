@@ -8,7 +8,7 @@
     <div class="container">
         <h2>Student</h2>
         <div class="col-lg-6 well"> 
-            <form class="form-horizontal" id="studentForm">
+            <form class="form-horizontal" id="student-form">
                 <fieldset>
                     <div class="form-group">
                         <label class="col-lg-3 control-label">First name</label>
@@ -17,9 +17,21 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label for="inputFathersInitial" class="col-lg-3 control-label">Father's initial</label>
+                        <div class="col-lg-9">
+                            <input type="text" class="form-control" id="inputFathersInitial" placeholder="Father's initial">
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="inputLastName" class="col-lg-3 control-label">Last name</label>
                         <div class="col-lg-9">
-                            <input type="text" class="form-control" id="inputLastName" placeholder="Last Name">
+                            <input type="text" class="form-control" id="inputLastName" placeholder="Last name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputStudentId" class="col-lg-3 control-label">Student id</label>
+                        <div class="col-lg-9">
+                            <input type="text" class="form-control" id="inputStudentId" placeholder="Student id">
                         </div>
                     </div>
                     <div class="form-group">
@@ -34,3 +46,7 @@
     </div>
 </body>
 </html>
+<script src="../Scripts/jquery-1.10.2.js"></script>
+<script src="js/Service.js"></script>
+<script src="js/StudentService.js"></script>
+<script src="js/StudentAdd.js"></script>

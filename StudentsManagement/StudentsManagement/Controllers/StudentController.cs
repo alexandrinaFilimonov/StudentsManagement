@@ -19,15 +19,39 @@ namespace StudentsManagement.Controllers
         }
 
         // GET: api/Student
+        [Route("api/Student")]
         public IEnumerable<Student> Get()
         {
             return this.StudentService.GetAll();
         }
 
         // GET: api/Student/5
+        [HttpGet]
+        [Route("api/Student/{id}")]
         public Student Get(int id)
         {
             return this.StudentService.Get(id);
+        }
+
+        // Get: api/Student/Financed
+        [HttpGet]
+        public IEnumerable<Student> Financed()
+        {
+            return this.StudentService.GetAll();
+        }
+
+        // Get: api/Student/FeePayer
+        [HttpGet]
+        public IEnumerable<Student> FeePayer()
+        {
+            return this.StudentService.GetAll();
+        }
+
+        // Get: api/Student/Promotion
+        [HttpGet]
+        public IEnumerable<Student> Promotion()
+        {
+            return this.StudentService.GetAll();
         }
 
         // POST: api/Student

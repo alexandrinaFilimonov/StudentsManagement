@@ -20,7 +20,6 @@ namespace StudentsManagement.DataLayer
 
         public void Update(Student model)
         {
-            throw new NotImplementedException();
         }
 
         public void Delete(int Id)

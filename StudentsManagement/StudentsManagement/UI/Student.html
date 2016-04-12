@@ -21,7 +21,14 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
                         <li><a href="StudentAdd.html">Add student</a></li>
-                        <li><a href="#">Link</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="true">Buget<span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a id="financed">Financed</a></li>
+                                <li><a id="fee-payer">Fee payer</a></li>
+                            </ul>
+                        </li>
+                        <li><a id="promotion">Publish promotion</a></li>
                     </ul>
                 </div>
             </div>
@@ -41,6 +48,7 @@
 </body>
 </html>
 <script src="../Scripts/jquery-1.10.2.js"></script>
+<script src="../Scripts/bootstrap.js"></script>
 <script src="js/StudentService.js"></script>
 <script src="js/Student.js"></script>
 <script src="js/Service.js"></script>

@@ -13,10 +13,10 @@ namespace StudentsManagement.Models
 
         public string LastName { get; set; }
 
-        public char Fathers_initial { get; set; }
+        public char FathersInitial { get; set; }
 
         public string Cnp { get; set; }
 
-        public string Sid { get; set; }
+        public string StudentId { get; set; }
     }
 }
