@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="../Content/bootstrap.css" rel="stylesheet" />
+    <title></title>
+</head>
+<body>
+    <div class="container">
+       <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">Students</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li><a href="StudentAdd.html">Add student</a></li>
+                        <li><a href="#">Link</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <table class="table table-striped table-hover ">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>First name</th>
+                    <th>Father's initial</th>
+                    <th>Last name</th>
+                </tr>
+            </thead>
+            <tbody id="student-table"></tbody>
+        </table>
+    </div>
+</body>
+</html>
+<script src="../Scripts/jquery-1.10.2.js"></script>
+<script src="js/StudentService.js"></script>
+<script src="js/Student.js"></script>
+<script src="js/Service.js"></script>
