@@ -1,11 +1,13 @@
 ﻿StudentService = function () {
     self = {}
 
-    self.url = "http://localhost:39515/api/Student/";
+    self.url = "http://localhost/StudentsManagement/api/Student/";
+
+    self.addUrl = "http://localhost/StudentsManagement/api/Student/Add";
 
     self.GetAll = function (func) {
         Service.Get(this.url).done(function (data) {
-            func(data)
+            func(data);
         });
     };
 
@@ -21,7 +23,7 @@
     }
 
     self.Post = function (student) {
-        Service.Post(this.url, student).done(function () {
+        Service.Post(this.addUrl, student).done(function () {
                 document.location.replace('Student.html');
             }
         );

@@ -1,17 +1,14 @@
 ﻿using StudentsManagement.DataLayer;
 using StudentsManagement.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 
 namespace StudentsManagement.Controllers
 {
+    
     public class StudentController : ApiController
     {
-        public IDataLayer<Student> StudentService;
+        private readonly IDataLayer<Student> StudentService;
 
         public StudentController()
         {
@@ -34,30 +31,39 @@ namespace StudentsManagement.Controllers
         }
 
         // Get: api/Student/Financed
-        [HttpGet]
-        public IEnumerable<Student> Financed()
-        {
-            return this.StudentService.GetAll();
-        }
+        //[HttpGet]
+        //public IEnumerable<Student> Financed()
+        //{
+        //    return this.StudentService.GetAll();
+        //}
 
         // Get: api/Student/FeePayer
-        [HttpGet]
-        public IEnumerable<Student> FeePayer()
-        {
-            return this.StudentService.GetAll();
-        }
+        //[HttpGet]
+        //public IEnumerable<Student> FeePayer()
+        //{
+        //    return this.StudentService.GetAll();
+        //}
 
         // Get: api/Student/Promotion
-        [HttpGet]
-        public IEnumerable<Student> Promotion()
-        {
-            return this.StudentService.GetAll();
-        }
+        //[HttpGet]
+        //public IEnumerable<Student> Promotion()
+        //{
+        //    return this.StudentService.GetAll();
+        //}
 
         // POST: api/Student
-        public void Post([FromBody]Student student)
+        [HttpPost]
+        [Route("api/Student/Add")]
+        public void Add(Student student)
         {
-            this.StudentService.Update(student);
+            this.StudentService.Add(student);
+        }
+
+        [HttpPost]
+        [Route("api/Student/Update")]
+        public void Update(int id, [FromBody] Student student)
+        {
+            this.StudentService.Update(id, student);
         }
 
         // DELETE: api/Student/5

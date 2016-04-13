@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace StudentsManagement.Models
+﻿namespace StudentsManagement.Models
 {
     public class Student
     {
@@ -13,7 +8,7 @@ namespace StudentsManagement.Models
 
         public string LastName { get; set; }
 
-        public char FathersInitial { get; set; }
+        public string FathersInitial { get; set; }
 
         public string Cnp { get; set; }
 

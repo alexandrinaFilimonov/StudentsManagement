@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace StudentsManagement.DataLayer
 {
@@ -10,10 +6,12 @@ namespace StudentsManagement.DataLayer
     {
         IEnumerable<TModel> GetAll();
 
-        TModel Get(int Id);
+        TModel Get(int id);
 
-        void Update(TModel model);
+        void Add(TModel model);
 
-        void Delete(int Id);
+        void Update(int id, TModel model);
+
+        void Delete(int id);
     }
 }
