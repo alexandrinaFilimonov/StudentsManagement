@@ -60,7 +60,7 @@ namespace StudentsManagement.College
         public int GetTotalCreditsPerYear(Student student) {
             return student.SubjectsList
                 .Where(subject => subject.Item2.StudyYear.Equals(AcademicYear) && subject.Item2.Semester.Equals(Semester))
-                .Sum(subject => subject.Item1.Grade * subject.Item2.NumberOfCredits); 
+                .Sum(subject => subject.Item1.Grade * subject.Item2.Credits); 
         }     
     }
 }

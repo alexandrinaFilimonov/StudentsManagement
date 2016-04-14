@@ -5,6 +5,8 @@
     student.FathersInitial = $(this).find('#inputFathersInitial').val();
     student.StudentId = $(this).find('#inputStudentId').val();
     student.Cnp = $(this).find('#inputCnp').val();
+    student.SubjectId = $(this).find('#inputSubjectId').val();
+
     StudentService.Post(student);
     event.preventDefault();
 }

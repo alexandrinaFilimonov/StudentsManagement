@@ -1,12 +1,12 @@
 ﻿<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <link href="../Content/bootstrap.css" rel="stylesheet" />
     <title></title>
+    <link href="../Content/bootstrap.css" rel="stylesheet" />
 </head>
 <body>
     <div class="container">
-       <nav class="navbar navbar-default">
+        <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -21,9 +21,7 @@
 
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
-                        <li><a href="StudentAdd.html">Add student</a></li>
-                        <li><a id="financed">Finance details</a></li>
-                        <li><a id="promotion">Publish promotion</a></li>
+                        <li><a href="SubjectAdd.html">Add subject</a></li>
                     </ul>
                 </div>
             </div>
@@ -32,18 +30,18 @@
             <thead>
                 <tr>
                     <th>Id</th>
-                    <th>First name</th>
-                    <th>Father's initial</th>
-                    <th>Last name</th>
+                    <th>Name</th>
+                    <th>Study year</th>
+                    <th>Semester</th>
+                    <th>Credits</th>
                 </tr>
             </thead>
-            <tbody id="student-table"></tbody>
+            <tbody id="subject-table"></tbody>
         </table>
     </div>
 </body>
 </html>
 <script src="../Scripts/jquery-1.10.2.js"></script>
-<script src="../Scripts/bootstrap.js"></script>
-<script src="js/StudentService.js"></script>
-<script src="js/Student.js"></script>
 <script src="js/Service.js"></script>
+<script src="js/SubjectService.js"></script>
+<script src="js/Subject.js"></script>

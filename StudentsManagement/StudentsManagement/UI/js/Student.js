@@ -4,6 +4,13 @@
     return studentTd;
 }
 
+addStudentDefault = function (student, studentTr) {
+    studentTr.append(createStudentTd(student.Id));
+    studentTr.append(createStudentTd(student.FirstName));
+    studentTr.append(createStudentTd(student.FathersInitial));
+    studentTr.append(createStudentTd(student.LastName));
+}
+
 // All
 showAll = function (students) {
     studentTable = $('#student-table');
@@ -11,10 +18,7 @@ showAll = function (students) {
     
     $(students).each(function (index, item) {
         var studentTr = $('<tr></tr>');
-        studentTr.append(createStudentTd(item.Id));
-        studentTr.append(createStudentTd(item.FirstName));
-        studentTr.append(createStudentTd(item.FatherInital));
-        studentTr.append(createStudentTd(item.LastName));
+        addStudentDefault(item, studentTr);
 
         studentTr.addClass("table-row");
         studentTr.css("cursor", "pointer");
@@ -35,12 +39,9 @@ showBudgeted = function (studentsBudgetDetails) {
 
     $(studentsBudgetDetails).each(function (index, item) {
         var studentTr = $('<tr></tr>');
-        studentTr.append(createStudentTd(item.Student.Id));
-        studentTr.append(createStudentTd(item.Student.FirstName));
-        studentTr.append(createStudentTd(item.Student.FatherInital));
-        studentTr.append(createStudentTd(item.Student.LastName));
-
-        financed = item.Financed === 'true' ? 'Financed' : 'Fee payer';
+        addStudentDefault(item.Student, studentTr);
+        
+        financed = item.Financed ? 'Financed' : 'Fee payer';
         studentTr.append(createStudentTd(financed));
         studentTr.append(createStudentTd(item.Credits));
         
@@ -58,12 +59,9 @@ showPromotion = function (studentsPromotionDetails) {
 
     $(studentsPromotionDetails).each(function (index, item) {
         var studentTr = $('<tr></tr>');
-        studentTr.append(createStudentTd(item.Student.Id));
-        studentTr.append(createStudentTd(item.Student.FirstName));
-        studentTr.append(createStudentTd(item.Student.FatherInital));
-        studentTr.append(createStudentTd(item.Student.LastName));
+        addStudentDefault(item.Student, studentTr);
 
-        promoted = item.Promoted === 'true' ? 'Promoted' : 'Failed';
+        promoted = item.Promoted ? 'Promoted' : 'Failed';
         studentTr.append(createStudentTd(promoted));
 
         studentTr.addClass("table-row");

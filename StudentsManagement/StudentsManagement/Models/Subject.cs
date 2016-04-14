@@ -15,6 +15,6 @@ namespace StudentsManagement.Models
 
         public int Semester { get; set; }
 
-        public int NumberOfCredits { get; set; }
+        public int Credits { get; set; }
     }
 }

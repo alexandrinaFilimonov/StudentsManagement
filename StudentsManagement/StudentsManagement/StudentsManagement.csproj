@@ -150,6 +150,7 @@
     <Compile Include="College\StudentPromotionDetails.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
+    <Compile Include="Controllers\SubjectController.cs" />
     <Compile Include="DataLayer\IService.cs" />
     <Compile Include="DataLayer\IJoiner.cs" />
     <Compile Include="DataLayer\Service.cs" />
@@ -206,9 +207,14 @@
     <Content Include="UI\js\Student.js" />
     <Content Include="UI\js\StudentAdd.js" />
     <Content Include="UI\js\StudentService.js" />
+    <Content Include="UI\js\Subject.js" />
+    <Content Include="UI\js\SubjectAdd.js" />
+    <Content Include="UI\js\SubjectService.js" />
     <Content Include="UI\Student.html" />
     <Content Include="UI\StudentAdd.html" />
     <Content Include="UI\StudentDetails.html" />
+    <Content Include="UI\Subject.html" />
+    <Content Include="UI\SubjectAdd.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

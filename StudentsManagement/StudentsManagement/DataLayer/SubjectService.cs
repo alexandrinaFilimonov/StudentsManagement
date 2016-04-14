@@ -17,7 +17,7 @@ namespace StudentsManagement.DataLayer
                 Name = fields[1],
                 StudyYear = int.Parse(fields[2]),
                 Semester = int.Parse(fields[3]),
-                NumberOfCredits = int.Parse(fields[4])
+                Credits = int.Parse(fields[4])
             };
         }
 
@@ -29,7 +29,7 @@ namespace StudentsManagement.DataLayer
         protected override string EntityToCsv(int newItemId, Subject subject)
         {
             return string.Format("{0},{1},{2},{3},{4}", newItemId, subject.Name, subject.StudyYear,
-                    subject.Semester, subject.NumberOfCredits);
+                    subject.Semester, subject.Credits);
         }
     }
 }

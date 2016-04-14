@@ -16,7 +16,7 @@ namespace StudentsManagement.DataLayer
                 while (!reader.EndOfStream)
                 {
                     var line = reader.ReadLine();
-                    if (line != null)
+                    if (!string.IsNullOrEmpty(line))
                     {
                         var fields = line.Split(',');
                         var entity = CreateEntity(fields);
@@ -35,7 +35,7 @@ namespace StudentsManagement.DataLayer
                 while (!reader.EndOfStream)
                 {
                     var line = reader.ReadLine();
-                    if (line != null)
+                    if (!string.IsNullOrEmpty(line))
                     {
                         var fields = line.Split(',');
                         if(fields[fieldIndex] == fieldValue){

@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="../Content/bootstrap.css" rel="stylesheet" />
+    <title></title>
+</head>
+<body>
+    <div class="container">
+        <h2>Subject</h2>
+        <div class="col-lg-6 well">
+            <form class="form-horizontal" id="subject-form">
+                <fieldset>
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">Name</label>
+                        <div class="col-lg-9">
+                            <input type="text" class="form-control" id="inputName" placeholder="Name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputStudyYear" class="col-lg-3 control-label">Study year</label>
+                        <div class="col-lg-9">
+                            <input type="text" class="form-control" id="inputStudyYear" placeholder="Study year">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputSemester" class="col-lg-3 control-label">Semester</label>
+                        <div class="col-lg-9">
+                            <input type="text" class="form-control" id="inputSemester" placeholder="Semester">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputCredits" class="col-lg-3 control-label">Credits</label>
+                        <div class="col-lg-9">
+                            <input type="text" class="form-control" id="inputCredits" placeholder="Credits">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-10 col-lg-offset-2">
+                            <button type="reset" class="btn btn-default">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
+<script src="../Scripts/jquery-1.10.2.js"></script>
+<script src="js/Service.js"></script>
+<script src="js/SubjectService.js"></script>
+<script src="js/SubjectAdd.js"></script>
