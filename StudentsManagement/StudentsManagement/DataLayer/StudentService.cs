@@ -1,7 +1,4 @@
 ﻿using StudentsManagement.Models;
-using System.Collections.Generic;
-using System.Configuration;
-using System.IO;
 
 namespace StudentsManagement.DataLayer
 {
@@ -38,16 +35,9 @@ namespace StudentsManagement.DataLayer
 
         protected override string EntityToCsv(int newItemId, Student student)
         {
-            return string.Format("{0},{1},{2},{3},{4},{5}", newItemId, student.FirstName, student.FathersInitial, student.LastName,
+            var entityToCsv = string.Format("{0},{1},{2},{3},{4},{5}", newItemId, student.FirstName, student.FathersInitial, student.LastName,
                 student.StudentId, student.Cnp);
+            return entityToCsv;
         }
-
-        public void Update(int id, Student model)
-        {
-        }
-
-        public void Delete(int Id)
-        {
-        }        
     }
 }

@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Web;
 
 namespace StudentsManagement.DataLayer
 {
     public abstract class Service<TModel> : IDataLayer<TModel>
     {
+        protected abstract string FilePath { get; }
+
+        private readonly string tempFilePath = System.Web.Hosting.HostingEnvironment.MapPath("~\\App_Data\\App_LocalResources\\temp.csv");
+
         public IEnumerable<TModel> GetAll()
         {
             var entities = new List<TModel>();
@@ -38,7 +39,8 @@ namespace StudentsManagement.DataLayer
                     if (!string.IsNullOrEmpty(line))
                     {
                         var fields = line.Split(',');
-                        if(fields[fieldIndex] == fieldValue){
+                        if (fields[fieldIndex] == fieldValue)
+                        {
                             var entity = CreateEntity(fields);
                             entities.Add(entity);
                         }
@@ -50,8 +52,6 @@ namespace StudentsManagement.DataLayer
 
         protected abstract TModel CreateEntity(string[] fields);
 
-        protected abstract string FilePath { get; }
-        
         public TModel Get(int id)
         {
             using (var reader = new StreamReader(File.OpenRead(FilePath)))
@@ -84,15 +84,52 @@ namespace StudentsManagement.DataLayer
         }
 
         protected abstract string EntityToCsv(int newItemId, TModel model);
-    
+
         public void Update(int id, TModel model)
         {
-            throw new NotImplementedException();
+            using (var reader = new StreamReader(File.OpenRead(FilePath)))
+            {
+                using (var writer = new StreamWriter(File.OpenWrite(tempFilePath)))
+                {
+                    while (!reader.EndOfStream)
+                    {
+                        var line = reader.ReadLine();
+                        if (!string.IsNullOrEmpty(line))
+                        {
+                            var values = line.Split(',');
+                            if (int.Parse(values[0]) == id)
+                            {
+                                line = EntityToCsv(id, model);
+                            }
+                            writer.WriteLine(line);
+                        }
+                    }
+                }
+            }
+            ApplyChanges();
         }
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            using (var reader = new StreamReader(File.OpenRead(FilePath)))
+            {
+                using (var writer = new StreamWriter(File.OpenWrite(tempFilePath)))
+                {
+                    while (!reader.EndOfStream)
+                    {
+                        var line = reader.ReadLine();
+                        if (!string.IsNullOrEmpty(line))
+                        {
+                            var values = line.Split(',');
+                            if (int.Parse(values[0]) != id)
+                            {
+                                writer.WriteLine(line);
+                            }
+                        }
+                    }
+                }
+            }
+            ApplyChanges();
         }
 
         private int GetNewItemId()
@@ -111,6 +148,13 @@ namespace StudentsManagement.DataLayer
                 lastId++;
             }
             return lastId;
+        }
+
+        private void ApplyChanges()
+        {
+            File.Delete(FilePath);
+            File.Move(tempFilePath, FilePath);
+            File.Delete(tempFilePath);
         }
     }
 }

@@ -62,13 +62,15 @@ namespace StudentsManagement.Controllers
         }
 
         [HttpPost]
-        [Route("api/Student/Update")]
+        [Route("api/Student/Update/{id}")]
         public void Update(int id, [FromBody] Student student)
         {
             this.StudentService.Update(id, student);
         }
 
         // DELETE: api/Student/5
+        [HttpDelete]
+        [Route("api/Student/Delete/{id}")]
         public void Delete(int id)
         {
             this.StudentService.Delete(id);
