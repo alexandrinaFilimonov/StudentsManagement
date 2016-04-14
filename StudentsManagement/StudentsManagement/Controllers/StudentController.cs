@@ -1,4 +1,5 @@
-﻿using StudentsManagement.DataLayer;
+﻿using StudentsManagement.College;
+using StudentsManagement.DataLayer;
 using StudentsManagement.Models;
 using System.Collections.Generic;
 using System.Web.Http;
@@ -9,10 +10,14 @@ namespace StudentsManagement.Controllers
     public class StudentController : ApiController
     {
         private readonly IDataLayer<Student> StudentService;
+        private readonly CollegeRules CollegeRules;
 
         public StudentController()
         {
-            StudentService = new StudentService();
+            var studentSubjectJoiner = new StudentSubjectJoiner(new SubjectService(), new StudentToSubjectService());
+            StudentService = new StudentService(studentSubjectJoiner);
+
+            CollegeRules = new CollegeRules { AcademicYear = 1, Semester = 2 };
         }
 
         // GET: api/Student
@@ -30,26 +35,23 @@ namespace StudentsManagement.Controllers
             return this.StudentService.Get(id);
         }
 
-        // Get: api/Student/Financed
-        //[HttpGet]
-        //public IEnumerable<Student> Financed()
-        //{
-        //    return this.StudentService.GetAll();
-        //}
-
-        // Get: api/Student/FeePayer
-        //[HttpGet]
-        //public IEnumerable<Student> FeePayer()
-        //{
-        //    return this.StudentService.GetAll();
-        //}
+        // Get: api/Student/Buget
+        [HttpGet]
+        [Route("api/Student/Budget")]
+        public IEnumerable<StudentBudgetStatus> Budget()
+        {
+            var students = this.StudentService.GetAll();
+            return CollegeRules.GetBugetStudents(students);
+        }
 
         // Get: api/Student/Promotion
-        //[HttpGet]
-        //public IEnumerable<Student> Promotion()
-        //{
-        //    return this.StudentService.GetAll();
-        //}
+        [HttpGet]
+        [Route("api/Student/Promotion")]
+        public IEnumerable<StudentPromotionDetails> Promotion()
+        {
+            var students = this.StudentService.GetAll();
+            return CollegeRules.GetPromotionDetails(students);
+        }
 
         // POST: api/Student
         [HttpPost]

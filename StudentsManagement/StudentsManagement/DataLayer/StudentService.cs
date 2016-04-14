@@ -5,76 +5,41 @@ using System.IO;
 
 namespace StudentsManagement.DataLayer
 {
-    public class StudentService : IDataLayer<Student>
+    public class StudentService : Service<Student>
     {
-        private readonly string filePath = System.Web.Hosting.HostingEnvironment.MapPath("~\\App_Data\\App_LocalResources\\students.csv");
+        private StudentSubjectJoiner studentSubjectJoiner;
 
-        public IEnumerable<Student> GetAll()
+        protected override string FilePath
         {
-            var students = new List<Student>();
-            using (var reader = new StreamReader(File.OpenRead(filePath)))
-            {
-                while (!reader.EndOfStream)
-                {
-                    var line = reader.ReadLine();
-                    if (line != null)
-                    {
-                        var fields = line.Split(',');
-                        var student = new Student
-                        {
-                            Id = int.Parse(fields[0]),
-                            LastName = fields[1],
-                            FathersInitial = fields[2],
-                            FirstName = fields[3],
-                            Cnp = fields[4],
-                            StudentId = fields[5]
-                        };
-                        students.Add(student);
-                    }
-                }
-            }
-            return students;
+            get { return System.Web.Hosting.HostingEnvironment.MapPath("~\\App_Data\\App_LocalResources\\students.csv"); }
         }
 
-        public void Add(Student student)
+        public StudentService(StudentSubjectJoiner studentSubjectJoiner)
         {
-            var newItemId = GetNewItemId();
+            this.studentSubjectJoiner = studentSubjectJoiner;
+        }
 
-            var newLine = string.Format("{0},{1},{2},{3},{4}", newItemId, student.LastName, student.FirstName,
+        protected override Student CreateEntity(string[] fields)
+        {
+            var student = new Student
+            {
+                Id = int.Parse(fields[0]),
+                LastName = fields[1],
+                FathersInitial = fields[2],
+                FirstName = fields[3],
+                Cnp = fields[4],
+                StudentId = fields[5]
+            };
+
+            student.SubjectsList = studentSubjectJoiner.Join(student.Id);
+
+            return student;
+        }
+
+        protected override string EntityToCsv(int newItemId, Student student)
+        {
+            return string.Format("{0},{1},{2},{3},{4}", newItemId, student.LastName, student.FirstName,
                 student.Cnp, student.StudentId);
-            using (StreamWriter writer = new StreamWriter(filePath, true))
-            {
-                writer.WriteLine(newLine);
-            }
-        }
-
-        public Student Get(int id)
-        {
-            using (var reader = new StreamReader(File.OpenRead(filePath)))
-            {
-                while (!reader.EndOfStream)
-                {
-                    var line = reader.ReadLine();
-                    if (line != null)
-                    {
-                        var fields = line.Split(',');
-                        if (id == int.Parse(fields[0]))
-                        {
-                            var student = new Student
-                            {
-                                Id = int.Parse(fields[0]),
-                                LastName = fields[1],
-                                FathersInitial = fields[2],
-                                FirstName = fields[3],
-                                Cnp = fields[4],
-                                StudentId = fields[5]
-                            };
-                            return student;
-                        }
-                    }
-                }
-            }
-            return null;
         }
 
         public void Update(int id, Student model)
@@ -83,25 +48,6 @@ namespace StudentsManagement.DataLayer
 
         public void Delete(int Id)
         {
-            
-        }
-
-        private int GetNewItemId()
-        {
-            int lastId = 1;
-            using (var reader = new StreamReader(File.OpenRead(filePath)))
-            {
-                while (!reader.EndOfStream)
-                {
-                    var line = reader.ReadLine();
-                    if (line != null)
-                    {
-                        lastId++;
-                    }
-                }
-                lastId++;
-            }
-            return lastId;
-        }
+        }        
     }
 }

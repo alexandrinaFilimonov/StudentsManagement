@@ -6,6 +6,8 @@ namespace StudentsManagement.DataLayer
     {
         IEnumerable<TModel> GetAll();
 
+        IEnumerable<TModel> GetByFieldValue(int columnIndex, string value);
+
         TModel Get(int id);
 
         void Add(TModel model);

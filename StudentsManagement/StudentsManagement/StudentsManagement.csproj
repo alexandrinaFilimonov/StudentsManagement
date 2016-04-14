@@ -15,7 +15,7 @@
     <AssemblyName>StudentsManagement</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>false</UseIISExpress>
+    <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -145,14 +145,24 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="College\CollegeRules.cs" />
+    <Compile Include="College\StudentBugetStatus.cs" />
+    <Compile Include="College\StudentPromotionDetails.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
-    <Compile Include="DataLayer\IDataLayer.cs" />
+    <Compile Include="DataLayer\IService.cs" />
+    <Compile Include="DataLayer\IJoiner.cs" />
+    <Compile Include="DataLayer\Service.cs" />
     <Compile Include="DataLayer\StudentService.cs" />
+    <Compile Include="DataLayer\StudentSubjectJoiner.cs" />
+    <Compile Include="DataLayer\StudentToSubjectService.cs" />
+    <Compile Include="DataLayer\SubjectService.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Student.cs" />
+    <Compile Include="Models\StudentToSubject.cs" />
+    <Compile Include="Models\Subject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -184,7 +194,8 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
     <Content Include="App_Data\App_LocalResources\students.csv" />
-    <Content Include="App_Data\App_LocalResources\trtrtr.csv" />
+    <Content Include="App_Data\App_LocalResources\subject.csv" />
+    <Content Include="App_Data\App_LocalResources\studentsToSubject.csv" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -197,6 +208,7 @@
     <Content Include="UI\js\StudentService.js" />
     <Content Include="UI\Student.html" />
     <Content Include="UI\StudentAdd.html" />
+    <Content Include="UI\StudentDetails.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -240,7 +252,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>39515</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost/StudentsManagement</IISUrl>
+          <IISUrl>http://localhost:39515/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

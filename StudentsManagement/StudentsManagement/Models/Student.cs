@@ -1,4 +1,8 @@
-﻿namespace StudentsManagement.Models
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace StudentsManagement.Models
 {
     public class Student
     {
@@ -13,5 +17,8 @@
         public string Cnp { get; set; }
 
         public string StudentId { get; set; }
+
+        public List<Tuple<StudentToSubject, Subject>> SubjectsList { get; set; } 
+             
     }
 }
