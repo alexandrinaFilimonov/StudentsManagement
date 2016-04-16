@@ -1,9 +1,11 @@
 ﻿StudentService = function () {
     self = {}
 
-    self.url = "http://localhost/StudentsManagement/api/Student/";
+    self.url = "http://localhost:39515//api/Student/";
 
-    self.addUrl = "http://localhost/StudentsManagement/api/Student/Add";
+    self.addUrl = "http://localhost:39515/api/Student/Add";
+
+    self.uploadUrl = "http://localhost:39515/api/Student/Upload";
 
     self.GetAll = function (func) {
         Service.Get(this.url).done(function (data) {
@@ -35,6 +37,14 @@
         Service.Get(url).done(function(data){
             func(data);
         });
+    }
+
+    self.UploadFile = function (files, onSuccess, onError) {
+        Service.PostUpload(this.uploadUrl, files)
+            .done(function (data) {
+                debugger;
+                onSuccess(data);})
+            .error(onError);
     }
 
     return self;

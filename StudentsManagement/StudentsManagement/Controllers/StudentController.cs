@@ -2,14 +2,19 @@
 using StudentsManagement.DataLayer;
 using StudentsManagement.Models;
 using System.Collections.Generic;
+using System.IO;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
+using StudentsManagement.Helpers;
 
 namespace StudentsManagement.Controllers
 {
-    
     public class StudentController : ApiController
     {
-        private readonly IDataLayer<Student> StudentService;
+        private readonly StudentService StudentService;
         private readonly CollegeRules CollegeRules;
 
         public StudentController()
@@ -74,6 +79,32 @@ namespace StudentsManagement.Controllers
         public void Delete(int id)
         {
             this.StudentService.Delete(id);
+        }
+
+        [HttpPost]
+        [Route("api/Student/Upload")]
+        public async Task<List<string>> Upload()
+        {
+            if (Request.Content.IsMimeMultipartContent())
+            {
+                string uploadPath = HttpContext.Current.Server.MapPath("~\\App_Data\\App_LocalResources\\");
+
+                var streamProvider = new MyStreamProvider(uploadPath);
+
+                await Request.Content.ReadAsMultipartAsync(streamProvider);
+
+                var messages = new List<string>();
+
+                foreach (var file in streamProvider.FileData)
+                {
+                    var fi = new FileInfo(file.LocalFileName);
+                    StudentService.ImportStudents(fi.FullName);
+                    messages.Add("File uploaded");
+                }
+                return messages;
+            }
+            HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid Request!");
+            throw new HttpResponseException(response);
         }
     }
 }

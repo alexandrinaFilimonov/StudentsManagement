@@ -47,7 +47,7 @@ showBudgeted = function (studentsBudgetDetails) {
         
         studentTr.addClass("table-row");
         studentTr.css("cursor", "pointer");
-        studentTable.on('click', '.table-row', showDetails)
+        studentTable.on('click', '.table-row', showDetails);
         studentTable.append(studentTr);
     });
 }
@@ -71,8 +71,19 @@ showPromotion = function (studentsPromotionDetails) {
     });
 }
 
+onSuccessImport = function (messages) {
+    for (i = 0; i < messages.length; i++) {
+        alert(messages[i]);
+    }
+    StudentService.GetAll(showAll);
+}
+
+onImportError = function () {
+    alert("Error on uploading file");
+}
+
 $(document).ready(function () {
-    StudentService.GetAll(showAll)
+    StudentService.GetAll(showAll);
 
     $('#financed').click(function () {
         StudentService.GetByParameter("Budget", showBudgeted);
@@ -80,5 +91,17 @@ $(document).ready(function () {
 
     $('#promotion').click(function () {
         StudentService.GetByParameter("Promotion", showPromotion);
+    });
+
+    $("#uploadBtn").click(function (evt) {
+        var files = $("#file1").get(0).files;
+        if (files.length > 0) {
+            var data = new FormData();
+            for (i = 0; i < files.length; i++) {
+                data.append("file" + i, files[i]);
+            }
+
+            StudentService.UploadFile(data, onSuccessImport, onImportError);
+        }
     });
 });

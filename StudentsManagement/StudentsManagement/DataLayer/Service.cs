@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace StudentsManagement.DataLayer
 {
@@ -132,22 +133,19 @@ namespace StudentsManagement.DataLayer
             ApplyChanges();
         }
 
-        private int GetNewItemId()
+        protected int GetNewItemId()
         {
-            int lastId = 1;
-            using (var reader = new StreamReader(File.OpenRead(FilePath)))
-            {
-                while (!reader.EndOfStream)
-                {
-                    var line = reader.ReadLine();
-                    if (line != null)
-                    {
-                        lastId++;
-                    }
-                }
-                lastId++;
-            }
-            return lastId;
+            var ids = GetExistingValuesOfAProperty(propertyIndex: 0);
+            var maxId = ids.Select(int.Parse).OrderByDescending(x => x).First();
+            return maxId + 1;
+        }
+
+        protected List<string> GetExistingValuesOfAProperty(int propertyIndex)
+        {
+            var lines = File.ReadAllLines(FilePath).ToList();
+            var items = lines.Select(x => new List<string>(x.Split(',')));
+            var existingIds = items.Select(x => x[propertyIndex]).ToList();
+            return existingIds;
         }
 
         private void ApplyChanges()
