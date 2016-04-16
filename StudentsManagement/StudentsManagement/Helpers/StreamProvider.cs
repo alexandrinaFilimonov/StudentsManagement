@@ -4,9 +4,9 @@ using System.Net.Http.Headers;
 
 namespace StudentsManagement.Helpers
 {
-    public class MyStreamProvider : MultipartFormDataStreamProvider
+    public class StreamProvider : MultipartFormDataStreamProvider
     {
-        public MyStreamProvider(string uploadPath)
+        public StreamProvider(string uploadPath)
             : base(uploadPath)
         {}
 

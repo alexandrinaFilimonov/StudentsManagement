@@ -104,4 +104,8 @@ $(document).ready(function () {
             StudentService.UploadFile(data, onSuccessImport, onImportError);
         }
     });
+
+    $('#downloadBtn').click(function() {
+        window.open("http://localhost/StudentsManagement/api/Student/Download", "_blank");
+    });
 });

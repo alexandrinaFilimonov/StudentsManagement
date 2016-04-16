@@ -1,10 +1,12 @@
-﻿using StudentsManagement.College;
+﻿using System;
+using StudentsManagement.College;
 using StudentsManagement.DataLayer;
 using StudentsManagement.Models;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
@@ -87,14 +89,11 @@ namespace StudentsManagement.Controllers
         {
             if (Request.Content.IsMimeMultipartContent())
             {
-                string uploadPath = HttpContext.Current.Server.MapPath("~\\App_Data\\App_LocalResources\\");
-
-                var streamProvider = new MyStreamProvider(uploadPath);
-
+                var uploadPath = HttpContext.Current.Server.MapPath("~\\App_Data\\App_LocalResources\\");
+                var streamProvider = new StreamProvider(uploadPath);
                 await Request.Content.ReadAsMultipartAsync(streamProvider);
 
                 var messages = new List<string>();
-
                 foreach (var file in streamProvider.FileData)
                 {
                     var fi = new FileInfo(file.LocalFileName);
@@ -103,8 +102,32 @@ namespace StudentsManagement.Controllers
                 }
                 return messages;
             }
-            HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid Request!");
+            var response = Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid Request!");
             throw new HttpResponseException(response);
+        }
+
+        [HttpGet]
+        [Route("api/Student/Download")]
+        public HttpResponseMessage DownloadDocument()
+        {
+            try
+            {
+                var filePath = System.Web.Hosting.HostingEnvironment.MapPath("~\\App_Data\\App_LocalResources\\students.csv");
+                var stream = new FileStream(filePath, FileMode.Open);
+                var result = new HttpResponseMessage(HttpStatusCode.OK)
+                {
+                    Content = new StreamContent(stream)
+                };
+                result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
+                result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+                result.Content.Headers.ContentDisposition.FileName = "Students.csv";
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var message = ex.Message;
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, message);
+            }
         }
     }
 }
