@@ -22,14 +22,17 @@ showAll = function (students) {
 
         studentTr.addClass("table-row");
         studentTr.css("cursor", "pointer");
-        studentTable.on('click', '.table-row', showDetails)
         studentTable.append(studentTr);
     });
+    studentTable.on('click', 'tr ', showDetails)
 }
 
 // Details
-showDetails = function () {
-    document.location.replace('StudentDetails.html');
+showDetails = function (event) {
+    var tableRows = $(event.target).parent().find('td');
+    var id = $(tableRows[0]).text();
+    console.log(id);
+    document.location.replace('StudentDetails.html?id=' + id);
 }
 
 // Financed

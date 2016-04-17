@@ -1,7 +1,7 @@
 ﻿SubjectService = function () {
     self = {}
 
-    self.url = "http://localhost/StudentsManagement/api/Subject/";
+    self.url = "http://localhost:39515/api/Subject/";
 
     self.GetAll = function (func) {
         Service.Get(this.url).done(function (data) {

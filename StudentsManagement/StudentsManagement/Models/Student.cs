@@ -18,7 +18,7 @@ namespace StudentsManagement.Models
 
         public string StudentId { get; set; }
 
-        public List<Tuple<StudentToSubject, Subject>> SubjectsList { get; set; } 
+        public List<StudentSubjectJoin> SubjectsList { get; set; } 
              
     }
 }

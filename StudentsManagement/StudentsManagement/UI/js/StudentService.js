@@ -1,9 +1,13 @@
 ﻿StudentService = function () {
     self = {}
 
-    self.url = "http://localhost:39515//api/Student/";
+    self.url = "http://localhost:39515/api/Student/";
 
     self.addUrl = "http://localhost:39515/api/Student/Add";
+
+    self.updateUrl = "http://localhost:39515/api/Student/Update";
+
+    self.detailsUrl = "http://localhost:39515/api/Student/Details";
 
     self.uploadUrl = "http://localhost:39515/api/Student/Upload";
 
@@ -13,15 +17,9 @@
         });
     };
 
-    self.Get = function (id) {
-        var student = {}
-
+    self.Get = function (id, func) {
         var url = this.url + id;
-        Service.Get(url).done(function (data) {
-            student = data;
-        });
-
-        return student;
+        Service.Get(url).done(func);
     }
 
     self.Post = function (student) {
@@ -29,6 +27,16 @@
                 document.location.replace('Student.html');
             }
         );
+    }
+
+    self.Update = function (student) {
+        Service.Post(this.updateUrl +"/"+ student.Id, student).done();
+    }
+
+    self.Detail = function (query, func) {
+        Service.Post(this.detailsUrl, query).done(function (data) {
+            func(data);
+        });
     }
 
     self.GetByParameter = function (parameter, func) {

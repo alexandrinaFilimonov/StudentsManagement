@@ -165,6 +165,7 @@
     <Compile Include="Models\DetailsQuery.cs" />
     <Compile Include="Helpers\StreamProvider.cs" />
     <Compile Include="Models\Student.cs" />
+    <Compile Include="Models\StudentSubjectJoin.cs" />
     <Compile Include="Models\StudentToSubject.cs" />
     <Compile Include="Models\Subject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

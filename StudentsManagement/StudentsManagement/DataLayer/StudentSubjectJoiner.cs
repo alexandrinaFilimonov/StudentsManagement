@@ -17,13 +17,13 @@ namespace StudentsManagement.DataLayer
             this.subjectService = subjectService;
         }
 
-        public List<Tuple<StudentToSubject,Subject>> Join(int fromForeignKey)
+        public List<StudentSubjectJoin> Join(int fromForeignKey)
         {
-            var subjectList = new List<Tuple<StudentToSubject, Subject>>();
+            var subjectList = new List<StudentSubjectJoin>();
             var studentToSubjectList = studentToSubjectService.GetByFieldValue(0, fromForeignKey.ToString());
             foreach(var studentToSubject in studentToSubjectList){
                 var subject = subjectService.Get(studentToSubject.SubjectId);
-                subjectList.Add(new Tuple<StudentToSubject, Subject>(studentToSubject, subject));
+                subjectList.Add(new StudentSubjectJoin(studentToSubject, subject));
             }
 
             return subjectList;

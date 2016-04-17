@@ -14,6 +14,6 @@ namespace StudentsManagement.College
 
         public int Average { get; set; }
 
-        public IEnumerable<Tuple<StudentToSubject, Subject>> ExaminationResults { get; set; }
+        public IEnumerable<StudentSubjectJoin> ExaminationResults { get; set; }
     }
 }

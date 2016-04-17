@@ -70,28 +70,28 @@ namespace StudentsManagement.College
             return studentDetails;
         }
 
-        private IEnumerable<Tuple<StudentToSubject, Subject>> GetExaminationResultsPerYear(Student student, int academicYear, int semester)
+        private IEnumerable<StudentSubjectJoin> GetExaminationResultsPerYear(Student student, int academicYear, int semester)
         {
             return student.SubjectsList
-                .Where(subject => subject.Item2.StudyYear.Equals(academicYear) && subject.Item2.Semester.Equals(semester));
+                .Where(join => join.Subject.StudyYear.Equals(academicYear) && join.Subject.Semester.Equals(semester));
         }
 
         private int GetAveragePerYear(Student student, int academicYear, int semester)
         {
             return (int)student.SubjectsList
-                .Where(subject => subject.Item2.StudyYear.Equals(academicYear) && subject.Item2.Semester.Equals(semester))
-                .Average(subject => subject.Item1.Grade);
+                .Where(join => join.Subject.StudyYear.Equals(academicYear) && join.Subject.Semester.Equals(semester))
+                .Average(join => join.Grade);
         }
 
         public int GetTotalCreditsPerYear(Student student, int academicYear, int semester) {
             return student.SubjectsList
-                .Where(subject => subject.Item2.StudyYear.Equals(academicYear) && subject.Item2.Semester.Equals(semester))
-                .Sum(subject => subject.Item1.Grade * subject.Item2.Credits); 
+                .Where(join => join.Subject.StudyYear.Equals(academicYear) && join.Subject.Semester.Equals(semester))
+                .Sum(join => join.Grade * join.Subject.Credits); 
         }
 
         private bool HasStudentPromoted(Student student)
         {
-            return !(student.SubjectsList.Where(subject => subject.Item1.Grade < 5).Count() > 6);
+            return !(student.SubjectsList.Where(join => join.Grade < 5).Count() > 6);
         }
     }
 }

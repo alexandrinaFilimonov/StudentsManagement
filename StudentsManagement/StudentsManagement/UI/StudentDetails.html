@@ -7,6 +7,107 @@
 <body>
     <div class="container">
         <h2>Student details</h2>
+        <div class="col-lg-6 well">
+            <form class="form-horizontal" id="student-form">
+                <fieldset>
+                    <input type="hidden" id="inputId">
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">First name</label>
+                        <div class="col-lg-9">
+                            <input type="text" class="form-control" id="inputFirstName" placeholder="First Name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputFathersInitial" class="col-lg-3 control-label">Father's initial</label>
+                        <div class="col-lg-9">
+                            <input type="text" class="form-control" id="inputFathersInitial" placeholder="Father's initial">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputLastName" class="col-lg-3 control-label">Last name</label>
+                        <div class="col-lg-9">
+                            <input type="text" class="form-control" id="inputLastName" placeholder="Last name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputStudentId" class="col-lg-3 control-label">Student id</label>
+                        <div class="col-lg-9">
+                            <input type="text" class="form-control" id="inputStudentId" placeholder="Student id">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputCnp" class="col-lg-3 control-label">CNP</label>
+                        <div class="col-lg-9">
+                            <input type="text" class="form-control" id="inputCnp" placeholder="CNP">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <table class="table table-striped table-hover ">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Name</th>
+                                    <th>Study year</th>
+                                    <th>Semester</th>
+                                    <th>Grade</th>
+                                    <th>Credits</th>
+                                </tr>
+                            </thead>
+                            <tbody id="subjects-table"></tbody>
+                        </table>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-10 col-lg-offset-2">
+                            <button type="reset" class="btn btn-default">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Update</button>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+        <div class="col-lg-6 well">
+            <h3>College</h3>
+            <form class="form-horizontal" id="details-form">
+                <fieldset>
+                    <input type="hidden" id="inputQueryId">
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">Academyc year</label>
+                        <div class="col-lg-9">
+                            <input type="text" class="form-control" id="inputAcademycYear" placeholder="Academic Year">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputFathersInitial" class="col-lg-3 control-label">Semester</label>
+                        <div class="col-lg-9">
+                            <input type="text" class="form-control" id="inputSemester" placeholder="Semester">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-10 col-lg-offset-2">
+                            <button type="submit" class="btn btn-primary">GetStatus</button>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+            <table class="table table-striped table-hover ">
+                <thead>
+                    <tr>
+                        <th>Ects average</th>
+                        <th>Credits</th>
+                    </tr>
+                </thead>
+                <tbody id="college-table"></tbody>
+            </table>
+            <table class="table table-striped table-hover ">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Grade</th>
+                    </tr>
+                </thead>
+                <tbody id="results-table"></tbody>
+             </table>
+        </div>
     </div>
 </body>
 </html>
