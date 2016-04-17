@@ -61,6 +61,15 @@ namespace StudentsManagement.Controllers
             this.StudentService.Add(student);
         }
 
+        // POST: api/Student/Details
+        [HttpPost]
+        [Route("api/Student/Details")]
+        public StudentCollegeDetails Details(DetailsQuery query)
+        {
+            var student = this.StudentService.Get(query.StudentId);
+            return CollegeRules.GetStudentCollgeStatus(student, query.AcademicYear, query.Semester);
+        }
+
         [HttpPost]
         [Route("api/Student/Update")]
         public void Update(int id, [FromBody] Student student)

@@ -18,7 +18,7 @@ namespace StudentsManagement.College
             var studentsBudgetDetails = new List<StudentBudgetStatus>();
             foreach (var student in allStudents)
             {
-                var numberOfCredits = GetTotalCreditsPerYear(student);
+                var numberOfCredits = GetTotalCreditsPerYear(student, AcademicYear, Semester);
                 var studentBudgetDetails = new StudentBudgetStatus
                 {
                     Student = student,
@@ -39,12 +39,12 @@ namespace StudentsManagement.College
             return studentsBudgetDetails;
         }
 
-        internal static IEnumerable<StudentPromotionDetails> GetPromotionDetails(IEnumerable<Student> students)
+        internal IEnumerable<StudentPromotionDetails> GetPromotionDetails(IEnumerable<Student> students)
         {
             var studentPromotionDetails = new List<StudentPromotionDetails>();
 
             foreach(var student in students){
-                var promoted = !(student.SubjectsList.Where(subject => subject.Item1.Grade < 5).Count() > 6);
+                var promoted = HasStudentPromoted(student);
                 var studentPromotionDetail = new StudentPromotionDetails
                 {
                     Student = student,
@@ -57,10 +57,41 @@ namespace StudentsManagement.College
             return studentPromotionDetails;
         }
 
-        public int GetTotalCreditsPerYear(Student student) {
+        internal StudentCollegeDetails GetStudentCollgeStatus(Student student, int academicYear, int semester)
+        {
+            var studentDetails = new StudentCollegeDetails
+            {
+                Student = student,
+                Credits = GetTotalCreditsPerYear(student, academicYear, semester),
+                Average = GetAveragePerYear(student, academicYear, semester),
+                ExaminationResults = GetExaminationResultsPerYear(student, academicYear, semester)
+            };
+            
+            return studentDetails;
+        }
+
+        private IEnumerable<Tuple<StudentToSubject, Subject>> GetExaminationResultsPerYear(Student student, int academicYear, int semester)
+        {
             return student.SubjectsList
-                .Where(subject => subject.Item2.StudyYear.Equals(AcademicYear) && subject.Item2.Semester.Equals(Semester))
+                .Where(subject => subject.Item2.StudyYear.Equals(academicYear) && subject.Item2.Semester.Equals(semester));
+        }
+
+        private int GetAveragePerYear(Student student, int academicYear, int semester)
+        {
+            return (int)student.SubjectsList
+                .Where(subject => subject.Item2.StudyYear.Equals(academicYear) && subject.Item2.Semester.Equals(semester))
+                .Average(subject => subject.Item1.Grade);
+        }
+
+        public int GetTotalCreditsPerYear(Student student, int academicYear, int semester) {
+            return student.SubjectsList
+                .Where(subject => subject.Item2.StudyYear.Equals(academicYear) && subject.Item2.Semester.Equals(semester))
                 .Sum(subject => subject.Item1.Grade * subject.Item2.Credits); 
-        }     
+        }
+
+        private bool HasStudentPromoted(Student student)
+        {
+            return !(student.SubjectsList.Where(subject => subject.Item1.Grade < 5).Count() > 6);
+        }
     }
 }

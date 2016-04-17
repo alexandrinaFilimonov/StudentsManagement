@@ -28,7 +28,7 @@ showAll = function (students) {
 }
 
 // Details
-showDetails = function(){
+showDetails = function () {
     document.location.replace('StudentDetails.html');
 }
 
