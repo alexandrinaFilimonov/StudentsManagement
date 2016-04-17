@@ -1,0 +1,6 @@
+# git ignore file
+StudentsManagement/StudentsManagement/bin/System.Web.Http.WebHost.xml
+*.xml
+StudentsManagement/StudentsManagement/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+StudentsManagement/StudentsManagement/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+StudentsManagement\StudentsManagement.Tests\obj\Debug*/

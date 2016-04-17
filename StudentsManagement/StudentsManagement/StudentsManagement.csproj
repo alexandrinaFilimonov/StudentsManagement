@@ -163,6 +163,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\DetailsQuery.cs" />
+    <Compile Include="Helpers\StreamProvider.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Models\StudentToSubject.cs" />
     <Compile Include="Models\Subject.cs" />

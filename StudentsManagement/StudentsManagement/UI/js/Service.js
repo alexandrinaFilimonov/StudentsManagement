@@ -16,5 +16,15 @@
         });
     }
 
+    self.PostUpload = function(url, data) {
+        return $.ajax({
+            type: "POST",
+            url: url,
+            data: data,
+            contentType: false,
+            processData: false
+        });
+    }
+
     return self;
 }();
