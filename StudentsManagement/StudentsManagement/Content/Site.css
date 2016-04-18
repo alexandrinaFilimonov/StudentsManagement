@@ -15,3 +15,43 @@ select,
 textarea {
     max-width: 280px;
 }
+
+/*thead, tbody { display: block !important;  }
+
+tbody {
+    height: 400px;       
+    overflow-y: auto;    
+    overflow-x: hidden;  
+}*/
+
+#actions {
+    text-align: right;
+}
+form {
+        width: 50%;
+    display: inline;
+    margin-right: 100px;
+}
+     
+
+.inputfile {
+    width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.inputfile + label {
+    font-size: 1.1em;
+    font-weight: 400;
+    color: black;
+    display: inline-block;
+}
+
+.inputfile + label {
+	cursor: pointer; /* "hand" cursor */
+}
+
+
