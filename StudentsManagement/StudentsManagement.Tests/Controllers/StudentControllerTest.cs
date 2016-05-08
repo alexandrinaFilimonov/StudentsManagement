@@ -4,6 +4,7 @@ using Moq;
 using StudentsManagement.Controllers;
 using StudentsManagement.DataLayer;
 using StudentsManagement.Models;
+using StudentsManagement.Tests.FakeModels;
 
 namespace StudentsManagement.Tests.Controllers
 {
@@ -11,25 +12,15 @@ namespace StudentsManagement.Tests.Controllers
     public class StudentControllerTest
     {
         private Mock<IDataLayer<Subject>> SubjectServiceMock;
+        private Mock<IDataLayer<StudentToSubject>> StudentToSubjectServiceMock;
         
         [TestInitialize]
-        public void STestInitialize()
+        public void TestInitialize()
         {
             SubjectServiceMock = new Mock<IDataLayer<Subject>>();
-            var newsubject = new Subject() { Credits = 5, Name = "Cloud", Semester = 2, StudyYear = 3 };
-            SubjectServiceMock.Setup(x => x.GetAll()).Returns(new List<Subject> { newsubject });
+            StudentToSubjectServiceMock = new Mock<IDataLayer<StudentToSubject>>();
         }
 
-        [TestMethod]
-        public void GetSubjects_ReturnsAListOfSubjects()
-        {
-            var controller = new SubjectController(SubjectServiceMock.Object);
-            var subjects = controller.Get();
-            Assert.IsInstanceOfType(subjects, typeof(IEnumerable<Subject>), "Method does not return a list of subjects");
-        }
-
-        [TestMethod]
-        public void AddSubbject(Subject subject)
-        { }
+        
     }
 }
