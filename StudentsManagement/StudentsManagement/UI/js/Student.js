@@ -5,10 +5,11 @@
 }
 
 addStudentDefault = function (student, studentTr) {
-    studentTr.append(createStudentTd(student.Id));
     studentTr.append(createStudentTd(student.FirstName));
     studentTr.append(createStudentTd(student.FathersInitial));
     studentTr.append(createStudentTd(student.LastName));
+    studentTr.append(createStudentTd(student.StudentId));
+
 }
 
 // All
@@ -17,6 +18,7 @@ showAll = function (students) {
     studentTable.empty();
     
     $(students).each(function (index, item) {
+
         var studentTr = $('<tr></tr>');
         addStudentDefault(item, studentTr);
 
@@ -24,7 +26,7 @@ showAll = function (students) {
         studentTr.css("cursor", "pointer");
         studentTable.append(studentTr);
     });
-    studentTable.on('click', 'tr ', showDetails)
+    studentTable.on('click', 'tr ', showDetails);
 }
 
 // Details
@@ -97,7 +99,7 @@ $(document).ready(function () {
     });
 
     $("#uploadBtn").click(function (evt) {
-        var files = $("#file1").get(0).files;
+        var files = $("#file").get(0).files;
         if (files.length > 0) {
             var data = new FormData();
             for (i = 0; i < files.length; i++) {
@@ -110,5 +112,22 @@ $(document).ready(function () {
 
     $('#downloadBtn').click(function() {
         window.open("http://localhost/StudentsManagement/api/Student/Download", "_blank");
+    });
+
+    var inputs = document.querySelectorAll('.inputfile');
+    Array.prototype.forEach.call(inputs, function (input) {
+        var label = input.nextElementSibling,
+            labelVal = label.innerHTML;
+
+        input.addEventListener('change', function (e) {
+            var fileName = '';
+            if (this.files && this.files.length > 1)
+                fileName = (this.getAttribute('data-multiple-caption') || '').replace('{count}', this.files.length);
+            else
+                fileName = e.target.value.split('\\').pop();
+
+            if (fileName)
+                label.innerHTML = fileName;
+        });
     });
 });
