@@ -37,13 +37,13 @@ namespace StudentsManagement.Tests.Controllers
             SubjectServiceMock.Verify(x => x.Add(It.IsAny<Subject>()), Times.Once);
         }
 
-        [TestMethod]
-        public void UpdateSubject_ServiceMethodIsCalled()
-        {
-            var controller = new SubjectController(SubjectServiceMock.Object);
-            controller.Put(12, Fakes.GetSubject());
+        //[TestMethod]
+        //public void UpdateSubject_ServiceMethodIsCalled()
+        //{
+        //    var controller = new SubjectController(SubjectServiceMock.Object);
+        //    controller.Put(12, Fakes.GetSubject());
 
-            SubjectServiceMock.Verify(x => x.Update(It.IsAny<int>(), It.IsAny<Subject>()), Times.Once);
-        }
+        //    SubjectServiceMock.Verify(x => x.Update(It.IsAny<int>(), It.IsAny<Subject>()), Times.Once);
+        //}
     }
 }

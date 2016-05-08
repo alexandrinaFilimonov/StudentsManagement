@@ -31,6 +31,7 @@ namespace StudentsManagement.Tests.Controllers
             StudentToSubjectServiceMock = new Mock<IDataLayer<StudentToSubject>>();
             StudentSubjectJoinerMock = new Mock<IJoiner<StudentToSubject, Subject>>();
             StudentServiceMock = new Mock<IDataLayer<Student>>();
+            CollegeRulesMock = new Mock<ICollegeRules>();
 
             StudentServiceMock.Setup(x => x.GetAll()).Returns(new List<Student>() { Fakes.GetStudent() });
             StudentServiceMock.Setup(x => x.Add(Fakes.GetStudent())).Verifiable();
@@ -42,7 +43,7 @@ namespace StudentsManagement.Tests.Controllers
         [TestMethod]
         public void AddStudent_ServiceMethodIsCalled()
         {
-            var controller = new StudentController(StudentServiceMock.Object);
+            var controller = new StudentController(StudentServiceMock.Object, CollegeRulesMock.Object);
             controller.Add(Fakes.GetStudent());
 
             StudentServiceMock.Verify(x => x.Add(It.IsAny<Student>()), Times.Once);
@@ -51,7 +52,7 @@ namespace StudentsManagement.Tests.Controllers
         [TestMethod]
         public void UpdateStudent_ServiceMethodIsCalled()
         {
-            var controller = new StudentController(StudentServiceMock.Object);
+            var controller = new StudentController(StudentServiceMock.Object, CollegeRulesMock.Object);
             controller.Update(12, Fakes.GetStudent());
 
             StudentServiceMock.Verify(x => x.Update(It.IsAny<int>(), It.IsAny<Student>()), Times.Once);
@@ -60,7 +61,7 @@ namespace StudentsManagement.Tests.Controllers
         [TestMethod]
         public void DeleteStudent_ServiceMethodIsCalled()
         {
-            var controller = new StudentController(StudentServiceMock.Object);
+            var controller = new StudentController(StudentServiceMock.Object, CollegeRulesMock.Object);
             controller.Delete(12);
 
             StudentServiceMock.Verify(x => x.Delete(It.IsAny<int>()), Times.Once);
@@ -71,7 +72,7 @@ namespace StudentsManagement.Tests.Controllers
         {
             //Arrange
             StudentServiceMock.Setup(x => x.Get(It.IsAny<int>())).Returns(Fakes.GetStudent);
-            var controller = new StudentController(StudentServiceMock.Object)
+            var controller = new StudentController(StudentServiceMock.Object, CollegeRulesMock.Object)
             {
                 Request = new HttpRequestMessage(),
                 Configuration = new HttpConfiguration()
@@ -92,7 +93,7 @@ namespace StudentsManagement.Tests.Controllers
             //Arrange
             StudentServiceMock.Setup(x => x.Get(15)).Returns(Fakes.Students().FirstOrDefault(x => x.Id == 15));
 
-            var controller = new StudentController(StudentServiceMock.Object)
+            var controller = new StudentController(StudentServiceMock.Object, CollegeRulesMock.Object)
         {
                 Request = new HttpRequestMessage(),
                 Configuration = new HttpConfiguration()
@@ -124,7 +125,6 @@ namespace StudentsManagement.Tests.Controllers
 
             // Assert
             Assert.AreEqual(studentBdgetList, actualBudget);
-            StudentServiceMock.VerifyAll();
             CollegeRulesMock.VerifyAll();
         }
 
@@ -147,7 +147,6 @@ namespace StudentsManagement.Tests.Controllers
 
             // Assert
             Assert.AreEqual(studentPromotionDetails, actualPromotionDetails);
-            StudentServiceMock.VerifyAll();
             CollegeRulesMock.VerifyAll();
         }
 
@@ -171,17 +170,13 @@ namespace StudentsManagement.Tests.Controllers
 
             // Assert
             Assert.AreEqual(studentStatusDetails, actualStatusDetails);
-            StudentServiceMock.VerifyAll();
             CollegeRulesMock.VerifyAll();
         }
 
-        [TestMethod]
-        public void AddSubbject(Subject subject)
-        { }
         public void GetStudents_ReturnsAListOfStudents()
         {
             //Arrange
-            var controller = new StudentController(StudentServiceMock.Object);
+            var controller = new StudentController(StudentServiceMock.Object, CollegeRulesMock.Object);
 
             //Act
             var students = controller.Get();
