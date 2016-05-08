@@ -1,4 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using StudentsManagement.Controllers;
@@ -6,6 +10,7 @@ using StudentsManagement.DataLayer;
 using StudentsManagement.Models;
 using StudentsManagement.College;
 using System;
+using StudentsManagement.Tests.FakeModels;
 
 namespace StudentsManagement.Tests.Controllers
 {
@@ -13,27 +18,91 @@ namespace StudentsManagement.Tests.Controllers
     public class StudentControllerTest
     {
         private Mock<IDataLayer<Subject>> SubjectServiceMock;
+        private Mock<IDataLayer<StudentToSubject>> StudentToSubjectServiceMock;
+        private Mock<IJoiner<StudentToSubject, Subject>> StudentSubjectJoinerMock;
         private Mock<IDataLayer<Student>> StudentServiceMock;
         private Mock<ICollegeRules> CollegeRulesMock;
         private Random random = new Random();
         
         [TestInitialize]
-        public void STestInitialize()
+        public void TestInitialize()
         {
             SubjectServiceMock = new Mock<IDataLayer<Subject>>();
-            var newsubject = new Subject() { Credits = 5, Name = "Cloud", Semester = 2, StudyYear = 3 };
-            SubjectServiceMock.Setup(x => x.GetAll()).Returns(new List<Subject> { newsubject });
-
-            CollegeRulesMock = new Mock<ICollegeRules>();
+            StudentToSubjectServiceMock = new Mock<IDataLayer<StudentToSubject>>();
+            StudentSubjectJoinerMock = new Mock<IJoiner<StudentToSubject, Subject>>();
             StudentServiceMock = new Mock<IDataLayer<Student>>();
+
+            StudentServiceMock.Setup(x => x.GetAll()).Returns(new List<Student>() { Fakes.GetStudent() });
+            StudentServiceMock.Setup(x => x.Add(Fakes.GetStudent())).Verifiable();
+            StudentServiceMock.Setup(x => x.Update(12, Fakes.GetStudent())).Verifiable();
+            StudentServiceMock.Setup(x => x.Delete(It.IsAny<int>())).Verifiable();
+
         }
 
         [TestMethod]
-        public void GetSubjects_ReturnsAListOfSubjects()
+        public void AddStudent_ServiceMethodIsCalled()
         {
-            var controller = new SubjectController(SubjectServiceMock.Object);
-            var subjects = controller.Get();
-            Assert.IsInstanceOfType(subjects, typeof(IEnumerable<Subject>), "Method does not return a list of subjects");
+            var controller = new StudentController(StudentServiceMock.Object);
+            controller.Add(Fakes.GetStudent());
+
+            StudentServiceMock.Verify(x => x.Add(It.IsAny<Student>()), Times.Once);
+        }
+
+        [TestMethod]
+        public void UpdateStudent_ServiceMethodIsCalled()
+        {
+            var controller = new StudentController(StudentServiceMock.Object);
+            controller.Update(12, Fakes.GetStudent());
+
+            StudentServiceMock.Verify(x => x.Update(It.IsAny<int>(), It.IsAny<Student>()), Times.Once);
+        }
+
+        [TestMethod]
+        public void DeleteStudent_ServiceMethodIsCalled()
+        {
+            var controller = new StudentController(StudentServiceMock.Object);
+            controller.Delete(12);
+
+            StudentServiceMock.Verify(x => x.Delete(It.IsAny<int>()), Times.Once);
+        }
+
+        [TestMethod]
+        public void GetStudentById_ReturnsStudent()
+        {
+            //Arrange
+            StudentServiceMock.Setup(x => x.Get(It.IsAny<int>())).Returns(Fakes.GetStudent);
+            var controller = new StudentController(StudentServiceMock.Object)
+            {
+                Request = new HttpRequestMessage(),
+                Configuration = new HttpConfiguration()
+            };
+
+            //Act
+            var result = controller.Get(20);
+
+            //Assert
+            Student student;
+            //Assert.IsInstanceOfType(student, typeof(Student), "Returned object does not have the correct type");
+            Assert.IsTrue(result.TryGetContentValue<Student>(out student));
+        }
+
+        [TestMethod]
+        public void GetStudentById_ReturnsNotFoundMessage()
+        {
+            //Arrange
+            StudentServiceMock.Setup(x => x.Get(15)).Returns(Fakes.Students().FirstOrDefault(x => x.Id == 15));
+
+            var controller = new StudentController(StudentServiceMock.Object)
+        {
+                Request = new HttpRequestMessage(),
+                Configuration = new HttpConfiguration()
+            };
+
+            //Act
+            var result = controller.Get(15);
+
+            //Assert
+            Assert.IsTrue(result.StatusCode == HttpStatusCode.NotFound);
         }
 
         [TestMethod]
@@ -109,5 +178,17 @@ namespace StudentsManagement.Tests.Controllers
         [TestMethod]
         public void AddSubbject(Subject subject)
         { }
+        public void GetStudents_ReturnsAListOfStudents()
+        {
+            //Arrange
+            var controller = new StudentController(StudentServiceMock.Object);
+
+            //Act
+            var students = controller.Get();
+
+            //Assert
+            Assert.IsInstanceOfType(students, typeof(IEnumerable<Student>), "Method does not return a list of students");
+            Assert.AreNotEqual(0, students.Count(), "List is empty");
+        }
     }
 }
