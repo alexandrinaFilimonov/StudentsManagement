@@ -1,15 +1,10 @@
 ﻿using StudentsManagement.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace StudentsManagement.DataLayer
 {
-    public class SubjectService : Service<Subject>
+    public class SubjectService : DataLayer<Subject>
     {
-        private StudentSubjectJoiner studentSubjectJoiner;
-
         protected override Subject CreateEntity(string[] fields)
         {
             return new Subject{
@@ -21,9 +16,18 @@ namespace StudentsManagement.DataLayer
             };
         }
 
-        protected override string FilePath
+        public override string FilePath
         {
-            get { return System.Web.Hosting.HostingEnvironment.MapPath("~\\App_Data\\App_LocalResources\\subject.csv"); }
+            get
+            {
+                var filePath = System.Web.Hosting.HostingEnvironment.MapPath("~\\App_Data\\App_LocalResources\\subject.csv");
+                return filePath;
+            }   
+        }
+
+        public override void Import(string fileName)
+        {
+            throw new NotImplementedException();
         }
 
         protected override string EntityToCsv(int newItemId, Subject subject)

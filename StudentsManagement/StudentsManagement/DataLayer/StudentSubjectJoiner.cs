@@ -1,17 +1,14 @@
 ﻿using StudentsManagement.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace StudentsManagement.DataLayer
 {
     public class StudentSubjectJoiner : IJoiner<StudentToSubject, Subject>
     {
-        private SubjectService subjectService;
-        private StudentToSubjectService studentToSubjectService;
+        private readonly IDataLayer<Subject> subjectService;
+        private readonly IDataLayer<StudentToSubject> studentToSubjectService;
 
-        public StudentSubjectJoiner(SubjectService subjectService, StudentToSubjectService studentToSubjectService)
+        public StudentSubjectJoiner(IDataLayer<Subject> subjectService, IDataLayer<StudentToSubject> studentToSubjectService)
         {
             this.studentToSubjectService = studentToSubjectService;
             this.subjectService = subjectService;

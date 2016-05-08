@@ -39,7 +39,7 @@ namespace StudentsManagement.College
             return studentsBudgetDetails;
         }
 
-        internal IEnumerable<StudentPromotionDetails> GetPromotionDetails(IEnumerable<Student> students)
+        public IEnumerable<StudentPromotionDetails> GetPromotionDetails(IEnumerable<Student> students)
         {
             var studentPromotionDetails = new List<StudentPromotionDetails>();
 
@@ -57,7 +57,7 @@ namespace StudentsManagement.College
             return studentPromotionDetails;
         }
 
-        internal StudentCollegeDetails GetStudentCollgeStatus(Student student, int academicYear, int semester)
+        public StudentCollegeDetails GetStudentCollgeStatus(Student student, int academicYear, int semester)
         {
             var studentDetails = new StudentCollegeDetails
             {
