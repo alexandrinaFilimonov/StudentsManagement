@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using StudentsManagement.FileManager;
+using StudentsManagement.Reader;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -6,6 +8,15 @@ namespace StudentsManagement.DataLayer
 {
     public abstract class DataLayer<TModel> : IDataLayer<TModel>
     {
+        private readonly IIOFactory iOFactory;
+        private readonly IFileManager fileManager;
+
+        protected DataLayer(IIOFactory factory, IFileManager fileManager)
+        {
+            this.iOFactory = factory;
+            this.fileManager = fileManager;
+        }
+
         public abstract string FilePath { get; }
 
         public abstract void Import(string fileName);
@@ -15,7 +26,7 @@ namespace StudentsManagement.DataLayer
         public IEnumerable<TModel> GetAll()
         {
             var entities = new List<TModel>();
-            using (var reader = new StreamReader(File.OpenRead(FilePath)))
+            using (var reader = iOFactory.CreateReader(FilePath))
             {
                 while (!reader.EndOfStream)
                 {
@@ -34,7 +45,7 @@ namespace StudentsManagement.DataLayer
         public IEnumerable<TModel> GetByFieldValue(int fieldIndex, string fieldValue)
         {
             var entities = new List<TModel>();
-            using (var reader = new StreamReader(File.OpenRead(FilePath)))
+            using (var reader = iOFactory.CreateReader(FilePath))
             {
                 while (!reader.EndOfStream)
                 {
@@ -57,7 +68,7 @@ namespace StudentsManagement.DataLayer
 
         public TModel Get(int id)
         {
-            using (var reader = new StreamReader(File.OpenRead(FilePath)))
+            using (var reader = iOFactory.CreateReader(FilePath))
             {
                 while (!reader.EndOfStream)
                 {
@@ -80,7 +91,7 @@ namespace StudentsManagement.DataLayer
             var newItemId = GetNewItemId();
 
             var newLine = EntityToCsv(newItemId, model);
-            using (StreamWriter writer = new StreamWriter(FilePath, true))
+            using (var writer = iOFactory.CreateWriter(FilePath, true))
             {
                 writer.WriteLine(newLine);
             }
@@ -90,9 +101,9 @@ namespace StudentsManagement.DataLayer
 
         public void Update(int id, TModel model)
         {
-            using (var reader = new StreamReader(File.OpenRead(FilePath)))
+            using (var reader = iOFactory.CreateReader(FilePath))
             {
-                using (var writer = new StreamWriter(File.OpenWrite(tempFilePath)))
+                using (var writer = iOFactory.CreateWriter(tempFilePath))
                 {
                     while (!reader.EndOfStream)
                     {
@@ -114,9 +125,9 @@ namespace StudentsManagement.DataLayer
 
         public void Delete(int id)
         {
-            using (var reader = new StreamReader(File.OpenRead(FilePath)))
+            using (var reader = iOFactory.CreateReader(FilePath))
             {
-                using (var writer = new StreamWriter(File.OpenWrite(tempFilePath)))
+                using (var writer = iOFactory.CreateWriter(tempFilePath))
                 {
                     while (!reader.EndOfStream)
                     {
@@ -143,7 +154,15 @@ namespace StudentsManagement.DataLayer
 
         protected List<string> GetExistingValuesOfAProperty(int propertyIndex)
         {
-            var lines = File.ReadAllLines(FilePath).ToList();
+            var lines = new List<string>();
+            using (var reader = iOFactory.CreateReader(tempFilePath))
+            {
+                while (!reader.EndOfStream)
+                {
+                    var line = reader.ReadLine();
+                    lines.Add(line);
+                }
+            }
             var items = lines.Select(x => new List<string>(x.Split(',')));
             var existingIds = items.Select(x => x[propertyIndex]).ToList();
             return existingIds;
@@ -151,9 +170,9 @@ namespace StudentsManagement.DataLayer
 
         private void ApplyChanges()
         {
-            File.Delete(FilePath);
-            File.Move(tempFilePath, FilePath);
-            File.Delete(tempFilePath);
+            fileManager.Delete(FilePath);
+            fileManager.Move(tempFilePath, FilePath);
+            fileManager.Delete(tempFilePath);
         }
     }
 }

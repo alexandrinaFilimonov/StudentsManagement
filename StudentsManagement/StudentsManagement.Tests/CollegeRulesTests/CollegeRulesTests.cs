@@ -23,7 +23,7 @@ namespace StudentsManagement.Tests.CollegeRulesTests
             
             var subjects = GetSubjectsForThisSemester(numberOfSubjects);
             var student = GetStudentWithSubjects(subjects);
-            var collegeRules = new CollegeRules { AcademicYear = academicYear, Semester = semester };
+            var collegeRules = new CollegeRules(academicYear, semester);
 
             // Arrange: prepare input
             var subjectPreviousYear = subjects.ElementAt(0);
@@ -57,7 +57,7 @@ namespace StudentsManagement.Tests.CollegeRulesTests
 
             var subjects = GetSubjectsForThisSemester(2);
             var student = GetStudentWithSubjects(subjects);
-            var collegeRules = new CollegeRules { AcademicYear = academicYear, Semester = semester };
+            var collegeRules = new CollegeRules(academicYear, semester);
 
             // Arrange: prepare input
             var subjectPreviousYear = subjects.ElementAt(0);
@@ -89,7 +89,7 @@ namespace StudentsManagement.Tests.CollegeRulesTests
                 students.Add(student);
             }
 
-            var collegeRules = new CollegeRules { AcademicYear = academicYear, Semester = semester };
+            var collegeRules = new CollegeRules(academicYear, semester);
 
             // Arrange: prepare input
             var grade = 5;
@@ -133,7 +133,7 @@ namespace StudentsManagement.Tests.CollegeRulesTests
                 students.Add(student);
             }
 
-            var collegeRules = new CollegeRules { AcademicYear = academicYear, Semester = semester };
+            var collegeRules = new CollegeRules(academicYear, semester);
 
             // Arrange: prepare input
             var failStudent = students.ElementAt(0);
@@ -160,7 +160,7 @@ namespace StudentsManagement.Tests.CollegeRulesTests
 
             var subjects = GetSubjectsForThisSemester(numberOfSubjects);
             var student = GetStudentWithSubjects(subjects);
-            var collegeRules = new CollegeRules { AcademicYear = academicYear, Semester = semester };
+            var collegeRules = new CollegeRules(academicYear, semester);
 
             // Arrange: prepare input
             var expectedTotalCredits = 0;
@@ -190,7 +190,7 @@ namespace StudentsManagement.Tests.CollegeRulesTests
 
             var subjects = GetSubjectsForThisSemester(numberOfSubjects);
             var student = GetStudentWithSubjects(subjects);
-            var collegeRules = new CollegeRules { AcademicYear = academicYear, Semester = semester };
+            var collegeRules = new CollegeRules(academicYear, semester);
 
             // Arrange: prepare input
             var subjectPreviousYear = subjects.ElementAt(0);

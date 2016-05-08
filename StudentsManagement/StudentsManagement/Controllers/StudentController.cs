@@ -17,13 +17,12 @@ namespace StudentsManagement.Controllers
     public class StudentController : ApiController
     {
         private readonly IDataLayer<Student> StudentService;
-        private readonly CollegeRules CollegeRules;
+        private readonly ICollegeRules CollegeRules;
 
-        public StudentController(IDataLayer<Student> studentService)
+        public StudentController(IDataLayer<Student> studentService, ICollegeRules collegeRules)
         {
             StudentService = studentService;
-
-            CollegeRules = new CollegeRules { AcademicYear = 1, Semester = 2 };
+            CollegeRules = collegeRules;
         }
 
         // GET: api/Student

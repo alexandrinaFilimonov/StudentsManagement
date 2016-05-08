@@ -6,10 +6,16 @@ using System.Web;
 
 namespace StudentsManagement.College
 {
-    public class CollegeRules
+    public class CollegeRules : ICollegeRules
     {
         public int AcademicYear { get; set; }
         public int Semester { get; set; }
+
+        public CollegeRules(int academicYear, int semester)
+        {
+            this.AcademicYear = academicYear;
+            this.Semester = semester;
+        }
 
         public const int FinancedPercentege = 60;
 

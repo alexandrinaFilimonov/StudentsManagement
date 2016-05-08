@@ -1,10 +1,18 @@
-﻿using StudentsManagement.Models;
+﻿using StudentsManagement.FileManager;
+using StudentsManagement.Models;
+using StudentsManagement.Reader;
 using System;
 
 namespace StudentsManagement.DataLayer
 {
     public class SubjectService : DataLayer<Subject>
     {
+        public SubjectService(IIOFactory factory, IFileManager fileManager)
+            : base(factory, fileManager)
+        {
+
+        }
+
         protected override Subject CreateEntity(string[] fields)
         {
             return new Subject{

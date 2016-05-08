@@ -1,5 +1,7 @@
 ﻿using System.IO;
 using StudentsManagement.Models;
+using StudentsManagement.Reader;
+using StudentsManagement.FileManager;
 
 namespace StudentsManagement.DataLayer
 {
@@ -16,7 +18,8 @@ namespace StudentsManagement.DataLayer
             }
         }
 
-        public StudentService(IJoiner<StudentToSubject, Subject> studentSubjectJoiner)
+        public StudentService(IJoiner<StudentToSubject, Subject> studentSubjectJoiner, IIOFactory factory, IFileManager fileManager)
+            : base(factory, fileManager)
         {
             this.StudentSubjectJoiner = studentSubjectJoiner;
         }
