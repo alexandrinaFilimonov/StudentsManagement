@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using StudentsManagement.Models;
 
 namespace StudentsManagement.DataLayer
 {
-    interface IJoiner<TModelMap,TModelTo>
+    public interface IJoiner<TModelMap,TModelTo>
     {
+        List<StudentSubjectJoin> Join(int fromForeignKey);
     }
 }

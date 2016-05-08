@@ -1,21 +1,17 @@
 ﻿using StudentsManagement.DataLayer;
 using StudentsManagement.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 
 namespace StudentsManagement.Controllers
 {
     public class SubjectController : ApiController
     {
-        private SubjectService subjectService;
+        private readonly IDataLayer<Subject> subjectService;
 
-        public SubjectController()
+        public SubjectController(IDataLayer<Subject> subjectService)
         {
-            this.subjectService = new SubjectService();
+            this.subjectService = subjectService;
         }
 
         // GET: api/Subject

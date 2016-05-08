@@ -11,19 +11,17 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using StudentsManagement.Helpers;
-using Newtonsoft.Json;
 
 namespace StudentsManagement.Controllers
 {
     public class StudentController : ApiController
     {
-        private readonly StudentService StudentService;
+        private readonly IDataLayer<Student> StudentService;
         private readonly CollegeRules CollegeRules;
 
-        public StudentController()
+        public StudentController(IDataLayer<Student> studentService)
         {
-            var studentSubjectJoiner = new StudentSubjectJoiner(new SubjectService(), new StudentToSubjectService());
-            StudentService = new StudentService(studentSubjectJoiner);
+            StudentService = studentService;
 
             CollegeRules = new CollegeRules { AcademicYear = 1, Semester = 2 };
         }
@@ -32,15 +30,21 @@ namespace StudentsManagement.Controllers
         [Route("api/Student")]
         public IEnumerable<Student> Get()
         {
-            return this.StudentService.GetAll();
+            var students = this.StudentService.GetAll();
+            return students;
         }
 
         // GET: api/Student/5
         [HttpGet]
         [Route("api/Student/{id}")]
-        public Student Get(int id)
+        public HttpResponseMessage Get(int id)
         {
-            return this.StudentService.Get(id);
+            var student = this.StudentService.Get(id);
+            if (student == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound);
+            }
+            return Request.CreateResponse(student);
         }
 
         // Get: api/Student/Buget
@@ -99,7 +103,8 @@ namespace StudentsManagement.Controllers
         {
             if (Request.Content.IsMimeMultipartContent())
             {
-                var uploadPath = HttpContext.Current.Server.MapPath("~\\App_Data\\App_LocalResources\\");
+                //var uploadPath = HttpContext.Current.Server.MapPath("~\\App_Data\\App_LocalResources\\");
+                var uploadPath = "D:\\master an 2\\css\\c\\";
                 var streamProvider = new StreamProvider(uploadPath);
                 await Request.Content.ReadAsMultipartAsync(streamProvider);
 
@@ -107,7 +112,7 @@ namespace StudentsManagement.Controllers
                 foreach (var file in streamProvider.FileData)
                 {
                     var fi = new FileInfo(file.LocalFileName);
-                    StudentService.ImportStudents(fi.FullName);
+                    StudentService.Import(fi.FullName);
                     messages.Add("File uploaded");
                 }
                 return messages;
@@ -122,7 +127,8 @@ namespace StudentsManagement.Controllers
         {
             try
             {
-                var filePath = System.Web.Hosting.HostingEnvironment.MapPath("~\\App_Data\\App_LocalResources\\students.csv");
+                //var filePath = System.Web.Hosting.HostingEnvironment.MapPath("~\\App_Data\\App_LocalResources\\students.csv");
+                var filePath = "D:\\master an 2\\css\\c\\";
                 var stream = new FileStream(filePath, FileMode.Open);
                 var result = new HttpResponseMessage(HttpStatusCode.OK)
                 {
