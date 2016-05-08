@@ -1,9 +1,19 @@
-﻿using StudentsManagement.Models;
+﻿using System.Collections.Generic;
+using StudentsManagement.Models;
 
 namespace StudentsManagement.Tests.FakeModels
 {
     public class Fakes
     {
+        public static List<Student> Students()
+        {
+            return new List<Student>()
+            {
+                GetStudent(),
+                GetStudent()
+            };
+        }
+
         public static Subject GetSubject()
         {
             return new Subject
@@ -28,5 +38,7 @@ namespace StudentsManagement.Tests.FakeModels
                 StudentId = "765714655845"
             };
         }
+
+
     }
 }

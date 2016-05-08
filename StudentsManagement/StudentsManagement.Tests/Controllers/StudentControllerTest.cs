@@ -29,14 +29,37 @@ namespace StudentsManagement.Tests.Controllers
             StudentServiceMock = new Mock<IDataLayer<Student>>();
 
             StudentServiceMock.Setup(x => x.GetAll()).Returns(new List<Student>() { Fakes.GetStudent() });
-            StudentServiceMock.Setup(x => x.Add(Fakes.GetStudent()));
+            StudentServiceMock.Setup(x => x.Add(Fakes.GetStudent())).Verifiable();
+            StudentServiceMock.Setup(x => x.Update(12, Fakes.GetStudent())).Verifiable();
+            StudentServiceMock.Setup(x => x.Delete(It.IsAny<int>())).Verifiable();
 
         }
 
         [TestMethod]
-        public void AddStudent_DoNotAcceptInvalidModel()
+        public void AddStudent_ServiceMethodIsCalled()
         {
+            var controller = new StudentController(StudentServiceMock.Object);
+            controller.Add(Fakes.GetStudent());
 
+            StudentServiceMock.Verify(x => x.Add(It.IsAny<Student>()), Times.Once);
+        }
+
+        [TestMethod]
+        public void UpdateStudent_ServiceMethodIsCalled()
+        {
+            var controller = new StudentController(StudentServiceMock.Object);
+            controller.Update(12, Fakes.GetStudent());
+
+            StudentServiceMock.Verify(x => x.Update(It.IsAny<int>(), It.IsAny<Student>()), Times.Once);
+        }
+
+        [TestMethod]
+        public void DeleteStudent_ServiceMethodIsCalled()
+        {
+            var controller = new StudentController(StudentServiceMock.Object);
+            controller.Delete(12);
+
+            StudentServiceMock.Verify(x => x.Delete(It.IsAny<int>()), Times.Once);
         }
 
         [TestMethod]
@@ -63,7 +86,7 @@ namespace StudentsManagement.Tests.Controllers
         public void GetStudentById_ReturnsNotFoundMessage()
         {
             //Arrange
-            StudentServiceMock.Setup(x => x.Get(15)).Returns(Fakes.GetStudent);
+            StudentServiceMock.Setup(x => x.Get(15)).Returns(Fakes.Students().FirstOrDefault(x => x.Id == 15));
 
             var controller = new StudentController(StudentServiceMock.Object)
             {
@@ -72,10 +95,9 @@ namespace StudentsManagement.Tests.Controllers
             };
 
             //Act
-            var result = controller.Get(20);
+            var result = controller.Get(15);
 
             //Assert
-            Student student;
             Assert.IsTrue(result.StatusCode == HttpStatusCode.NotFound);
         }
 
