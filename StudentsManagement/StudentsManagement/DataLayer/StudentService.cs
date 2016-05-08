@@ -3,18 +3,22 @@ using StudentsManagement.Models;
 
 namespace StudentsManagement.DataLayer
 {
-    public class StudentService : Service<Student>
+    public class StudentService : DataLayer<Student>
     {
-        private StudentSubjectJoiner studentSubjectJoiner;
+        private readonly IJoiner<StudentToSubject, Subject> StudentSubjectJoiner;
 
-        protected override string FilePath
+        public override string FilePath
         {
-            get { return System.Web.Hosting.HostingEnvironment.MapPath("~\\App_Data\\App_LocalResources\\students.csv"); }
+            get
+            {
+                var filePath = System.Web.Hosting.HostingEnvironment.MapPath("~\\App_Data\\App_LocalResources\\students.csv");
+                return filePath;
+            }
         }
 
-        public StudentService(StudentSubjectJoiner studentSubjectJoiner)
+        public StudentService(IJoiner<StudentToSubject, Subject> studentSubjectJoiner)
         {
-            this.studentSubjectJoiner = studentSubjectJoiner;
+            this.StudentSubjectJoiner = studentSubjectJoiner;
         }
 
         protected override Student CreateEntity(string[] fields)
@@ -29,7 +33,7 @@ namespace StudentsManagement.DataLayer
                 StudentId = fields[5]
             };
 
-            student.SubjectsList = studentSubjectJoiner.Join(student.Id);
+            student.SubjectsList = StudentSubjectJoiner.Join(student.Id);
 
             return student;
         }
@@ -41,7 +45,7 @@ namespace StudentsManagement.DataLayer
             return entityToCsv;
         }
 
-        public void ImportStudents(string sourceFilePath)
+        public override void Import(string sourceFilePath)
         {
             var existingStudentIds = GetExistingValuesOfAProperty(propertyIndex: 4);
             var newItemId = GetNewItemId();

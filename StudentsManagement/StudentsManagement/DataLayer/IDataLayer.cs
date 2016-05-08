@@ -15,5 +15,7 @@ namespace StudentsManagement.DataLayer
         void Update(int id, TModel model);
 
         void Delete(int id);
+
+        void Import(string fileName);
     }
 }

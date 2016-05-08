@@ -4,12 +4,14 @@ using System.Linq;
 
 namespace StudentsManagement.DataLayer
 {
-    public abstract class Service<TModel> : IDataLayer<TModel>
+    public abstract class DataLayer<TModel> : IDataLayer<TModel>
     {
-        protected abstract string FilePath { get; }
+        public abstract string FilePath { get; }
 
-        private readonly string tempFilePath = System.Web.Hosting.HostingEnvironment.MapPath("~\\App_Data\\App_LocalResources\\temp.csv");
+        public abstract void Import(string fileName);
 
+        //private readonly string tempFilePath = System.Web.Hosting.HostingEnvironment.MapPath("~\\App_Data\\App_LocalResources\\temp.csv");
+        private readonly string tempFilePath = "D:\\master an 2\\css\\c\\temp.csv";
         public IEnumerable<TModel> GetAll()
         {
             var entities = new List<TModel>();
@@ -132,7 +134,6 @@ namespace StudentsManagement.DataLayer
             }
             ApplyChanges();
         }
-
         protected int GetNewItemId()
         {
             var ids = GetExistingValuesOfAProperty(propertyIndex: 0);
