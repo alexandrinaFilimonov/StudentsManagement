@@ -6,6 +6,7 @@ using Unity.WebApi;
 using StudentsManagement.College;
 using StudentsManagement.Reader;
 using StudentsManagement.FileManager;
+using StudentsManagement.Helpers;
 
 namespace StudentsManagement
 {
@@ -27,6 +28,7 @@ namespace StudentsManagement
             container.RegisterType<IIOFactory, IOFactory>();
             container.RegisterType<IFileManager, FileManager.FileManager>();
             container.RegisterType<ICollegeRules, CollegeRules>(new InjectionConstructor(1, 2));
+            container.RegisterType<IPathProvider<Student>, StudentPathProvider>();
             
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
         }

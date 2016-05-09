@@ -33,8 +33,9 @@ namespace StudentsManagement.Controllers
         }
 
         // PUT: api/Subject/5
-        public void Put(int id, [FromBody]string value)
+        public void Put(int id, [FromBody]Subject subject)
         {
+            this.subjectService.Update(id, subject);
         }
 
         // DELETE: api/Subject/5

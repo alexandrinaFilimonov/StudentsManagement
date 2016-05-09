@@ -18,11 +18,15 @@ namespace StudentsManagement.Controllers
     {
         private readonly IDataLayer<Student> StudentService;
         private readonly ICollegeRules CollegeRules;
+        private readonly IPathProvider<Student> StudentPathProvider;
 
-        public StudentController(IDataLayer<Student> studentService, ICollegeRules collegeRules)
+        public StudentController(IDataLayer<Student> studentService, 
+                                 ICollegeRules collegeRules,
+                                 IPathProvider<Student> studentPathProvider)
         {
             StudentService = studentService;
             CollegeRules = collegeRules;
+            StudentPathProvider = studentPathProvider;
         }
 
         // GET: api/Student
@@ -126,8 +130,7 @@ namespace StudentsManagement.Controllers
         {
             try
             {
-                //var filePath = System.Web.Hosting.HostingEnvironment.MapPath("~\\App_Data\\App_LocalResources\\students.csv");
-                var filePath = "D:\\master an 2\\css\\c\\";
+                var filePath = StudentPathProvider.GetPathToDownloadFrom();
                 var stream = new FileStream(filePath, FileMode.Open);
                 var result = new HttpResponseMessage(HttpStatusCode.OK)
                 {
