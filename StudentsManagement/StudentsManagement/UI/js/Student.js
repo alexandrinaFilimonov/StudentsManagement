@@ -5,6 +5,7 @@
 }
 
 addStudentDefault = function (student, studentTr) {
+    studentTr.append(createStudentTd(student.Id));
     studentTr.append(createStudentTd(student.FirstName));
     studentTr.append(createStudentTd(student.FathersInitial));
     studentTr.append(createStudentTd(student.LastName));

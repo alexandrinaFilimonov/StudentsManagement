@@ -1,7 +1,6 @@
 ﻿using StudentsManagement.FileManager;
 using StudentsManagement.Reader;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace StudentsManagement.DataLayer
@@ -21,8 +20,8 @@ namespace StudentsManagement.DataLayer
 
         public abstract void Import(string fileName);
 
-        //private readonly string tempFilePath = System.Web.Hosting.HostingEnvironment.MapPath("~\\App_Data\\App_LocalResources\\temp.csv");
-        private readonly string tempFilePath = "D:\\master an 2\\css\\c\\temp.csv";
+        private readonly string tempFilePath = System.Web.Hosting.HostingEnvironment.MapPath("~\\App_Data\\App_LocalResources\\temp.csv");
+        //private readonly string tempFilePath = "D:\\master an 2\\css\\c\\temp.csv";
         public IEnumerable<TModel> GetAll()
         {
             var entities = new List<TModel>();

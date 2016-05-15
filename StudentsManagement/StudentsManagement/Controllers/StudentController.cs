@@ -3,6 +3,7 @@ using StudentsManagement.College;
 using StudentsManagement.DataLayer;
 using StudentsManagement.Models;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -73,7 +74,15 @@ namespace StudentsManagement.Controllers
         [Route("api/Student/Add")]
         public void Add(Student student)
         {
-            this.StudentService.Add(student);
+            Contract.Requires(student != null, "Model is null");
+            Contract.Requires(student.Cnp != null, "Cnp cannot be null");
+            Contract.Requires(student.FirstName != null, "FirstName cannot be null");
+            Contract.Requires(student.LastName != null, "LastName cannot be null");
+            Contract.Requires(student.FathersInitial != null, "FathersInitial cannot be null");
+            Contract.Requires(student.StudentId != null, "StudentId cannot be null");
+            Contract.Requires(student.Cnp.Length == 13, "Provided CNP is invalid");
+            Contract.Requires(student.FathersInitial.Length == 1, "Father's initial should contain only one character");
+            StudentService.Add(student);
         }
 
         // POST: api/Student/Details
@@ -89,6 +98,15 @@ namespace StudentsManagement.Controllers
         [Route("api/Student/Update/{id}")]
         public void Update(int id, [FromBody] Student student)
         {
+            Contract.Requires(id != 0, "Invalid student id");
+            Contract.Requires(student != null, "Model is null");
+            Contract.Requires(student.Cnp != null, "Cnp cannot be null");
+            Contract.Requires(student.FirstName != null, "FirstName cannot be null");
+            Contract.Requires(student.LastName != null, "LastName cannot be null");
+            Contract.Requires(student.FathersInitial != null, "FathersInitial cannot be null");
+            Contract.Requires(student.StudentId != null, "StudentId cannot be null");
+            Contract.Requires(student.Cnp.Length == 13, "Provided CNP is invalid");
+            Contract.Requires(student.FathersInitial.Length == 1, "Father's initial should contain only one character");
             this.StudentService.Update(id, student);
         }
 
@@ -106,8 +124,8 @@ namespace StudentsManagement.Controllers
         {
             if (Request.Content.IsMimeMultipartContent())
             {
-                //var uploadPath = HttpContext.Current.Server.MapPath("~\\App_Data\\App_LocalResources\\");
-                var uploadPath = "D:\\master an 2\\css\\c\\";
+                var uploadPath = HttpContext.Current.Server.MapPath("~\\App_Data\\App_LocalResources\\");
+                //var uploadPath = "D:\\master an 2\\css\\c\\";
                 var streamProvider = new StreamProvider(uploadPath);
                 await Request.Content.ReadAsMultipartAsync(streamProvider);
 

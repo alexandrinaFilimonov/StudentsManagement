@@ -12,7 +12,11 @@
         return $.ajax({
             type: "POST",
             url: url,
-            data: data
+            data: data,
+            error: function (xhr) {
+                debugger;
+                alert(xhr.error().responseText);
+            }
         });
     }
 
