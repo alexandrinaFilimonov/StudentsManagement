@@ -5,19 +5,19 @@
 }
 
 addStudentDefault = function (student, studentTr) {
+    Preconditions.checkState((studentTr.children('td').length == 0), "Student table row is not empty before adding student details");
     studentTr.append(createStudentTd(student.Id));
     studentTr.append(createStudentTd(student.FirstName));
     studentTr.append(createStudentTd(student.FathersInitial));
     studentTr.append(createStudentTd(student.LastName));
     studentTr.append(createStudentTd(student.StudentId));
-
+    Postconditions.checkState((studentTr.children('td').length == 5), "Student table row does not show all 5 cells");
 }
 
 // All
 showAll = function (students) {
-    if (!$('#student-table').length) {
-        throw new IllegalStateException("Html with id #student-table does not exists")
-    }
+    Preconditions.checkState($('#student-table').length, "Html with id student-table does not exists");
+
     studentTable = $('#student-table');
     studentTable.empty();
     
@@ -31,6 +31,7 @@ showAll = function (students) {
         studentTable.append(studentTr);
     });
     studentTable.on('click', 'tr ', showDetails);
+    Postconditions.checkState(($('#student-table').children('tr').length == students.length), "Student table doesn't contains total nr. of students.");
 }
 
 // Details
@@ -43,9 +44,8 @@ showDetails = function (event) {
 
 // Financed
 showBudgeted = function (studentsBudgetDetails) {
-    if (!$('#student-table').length) {
-        throw new IllegalStateException("Html with id #student-table does not exists")
-    }
+    Preconditions.checkState($('#student-table').length, "Html with id student-table does not exists");
+
     studentTable = $('#student-table');
     studentTable.empty();
 
@@ -62,13 +62,15 @@ showBudgeted = function (studentsBudgetDetails) {
         studentTable.on('click', '.table-row', showDetails);
         studentTable.append(studentTr);
     });
+    Postconditions.checkState(
+	($('#student-table').children('tr').length == studentsBudgetDetails.length), 
+	"Student table doesn't contains total nr. of students.");
 }
 
 // Promotion
 showPromotion = function (studentsPromotionDetails) {
-    if (!$('#student-table').length) {
-        throw new IllegalStateException("Html with id #student-table does not exists")
-    }
+    Preconditions.checkState($('#student-table').length, "Html with id #student-table does not exists");
+
     studentTable = $('#student-table');
     studentTable.empty();
 
@@ -84,6 +86,9 @@ showPromotion = function (studentsPromotionDetails) {
         studentTable.on('click', '.table-row', showDetails)
         studentTable.append(studentTr);
     });
+    Postconditions.checkState(
+	($('#student-table').children('tr').length == studentsPromotionDetails.length), 
+	"Student table doesn't contains total nr. of students.");
 }
 
 onSuccessImport = function (messages) {
@@ -97,7 +102,14 @@ onImportError = function () {
     alert("Error on uploading file");
 }
 
-$(document).ready(function () {
+function documentReadyAction() {
+    Preconditions.checkState($('#student-table').length, "Html with id #student-table does not exists");
+    Preconditions.checkState($('#student-table').html() == '', "Html with id #student-table does not exists");
+    Preconditions.checkState($('#financed').length, "Html with id #financed does not exists");
+    Preconditions.checkState($('#promotion').length, "Html with id #promotion does not exists");
+    Preconditions.checkState($('#uploadBtn').length, "Html with id #uploadBtn does not exists");
+    Preconditions.checkState($('#downloadBtn').length, "Html with id #downloadBtn does not exists");
+
     StudentService.GetAll(showAll);
 
     $('#financed').click(function () {
@@ -140,4 +152,10 @@ $(document).ready(function () {
                 label.innerHTML = fileName;
         });
     });
-});
+    Postconditions.checkState(($._data($('#financed').get(0),'events').click.length > 0), "Button with id #financed must have click event atached");
+    Postconditions.checkState(($._data($('#promotion').get(0),'events').click.length > 0), "Button with id #promotion must have click event atached");
+    Postconditions.checkState(($._data($('#uploadBtn').get(0),'events').click.length > 0), "Button with id #uploadBtn must have click event atached");
+    Postconditions.checkState(($._data($('#downloadBtn').get(0),'events').click.length > 0), "Button with id #downloadBtn must have click event atached");
+}
+
+$(document).ready(documentReadyAction());

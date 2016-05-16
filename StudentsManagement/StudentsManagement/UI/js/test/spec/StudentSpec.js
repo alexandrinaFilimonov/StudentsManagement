@@ -115,6 +115,11 @@ describe("Student", function(){
 	showPromotion(students);
 	expect($('#student-table').html()).toEqual('') ;
   });
+
+  it("should have empty table of students on document ready", function() {
+	documentReadyAction();
+        expect($('#student-table').html()).toEqual('') ;
+  });
 	
 });
 
