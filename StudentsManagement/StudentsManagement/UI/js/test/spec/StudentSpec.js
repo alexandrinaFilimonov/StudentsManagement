@@ -29,7 +29,7 @@ describe("Student", function(){
 	var student = studentTest();
 	var tr = $('<tr></tr>');
 	addStudentDefault(student, tr);
-	expect(tr.html()).toEqual("<td>First_Name</td><td>I</td><td>Last_Name</td><td>1</td>");
+	expect(tr.html()).toEqual("<td>1</td><td>First_Name</td><td>I</td><td>Last_Name</td><td>1</td>");
   });
 
   it("should not be able to add student table when table is null", function() {
@@ -70,7 +70,7 @@ describe("Student", function(){
   it("should show all", function() {
 	var students = [studentTest(), studentTest()];	
 	showAll(students);
-	expect($('#student-table').html()).toEqual("<tr style=\"cursor: pointer;\" class=\"table-row\"><td>First_Name</td><td>I</td><td>Last_Name</td><td>1</td></tr><tr style=\"cursor: pointer;\" class=\"table-row\"><td>First_Name</td><td>I</td><td>Last_Name</td><td>1</td></tr>") ;
+	expect($('#student-table').html()).toEqual('<tr style="cursor: pointer;" class="table-row"><td>1</td><td>First_Name</td><td>I</td><td>Last_Name</td><td>1</td></tr><tr style="cursor: pointer;" class="table-row"><td>1</td><td>First_Name</td><td>I</td><td>Last_Name</td><td>1</td></tr>') ;
   });
 
   it("should show all when array is empty", function() {
@@ -81,24 +81,15 @@ describe("Student", function(){
 
   it("should show all when array contains null", function() {
 	var students = [studentTest(), null];	
-	//showAll(students);
-	//expect($('#student-table').html()).toEqual("") ;
+	showAll(students);
+	expect($('#student-table').html()).toEqual("") ;
   });
 
-  it("should show details when", function() {
-	var students = [studentTest(), studentTest()];
-        showAll(students);
-	var event = {};
-	event.target = $('.table-row').get(0);
-        //showDetails(event);
-	
-  });
-
-    //test showAll
+    //test showBudgeted
   it("should show budgeted", function() {
 	var students = student_array();	
 	showBudgeted(students);
-	expect($('#student-table').html()).toEqual('<tr style="cursor: pointer;" class="table-row"><td>First_Name</td><td>I</td><td>Last_Name</td><td>1</td><td>Fee payer</td><td></td></tr><tr style="cursor: pointer;" class="table-row"><td>First_Name</td><td>I</td><td>Last_Name</td><td>1</td><td>Fee payer</td><td></td></tr>') ;
+	expect($('#student-table').html()).toEqual('<tr style="cursor: pointer;" class="table-row"><td>1</td><td>First_Name</td><td>I</td><td>Last_Name</td><td>1</td><td>Fee payer</td><td></td></tr><tr style="cursor: pointer;" class="table-row"><td>1</td><td>First_Name</td><td>I</td><td>Last_Name</td><td>1</td><td>Fee payer</td><td></td></tr>') ;
   });
 
   it("should show budgeted when empty array", function() {
@@ -109,14 +100,14 @@ describe("Student", function(){
 
   it("should show budgeted when array contains null", function() {
 	var students = [null];	
-	//showBudgeted(students);
-	//expect($('#student-table').html()).toEqual('') ;
+	showBudgeted(students);
+	expect($('#student-table').html()).toEqual('') ;
   });
 
   it("should show promotion", function() {
 	var students = student_array();	
 	showPromotion(students);
-	expect($('#student-table').html()).toEqual('<tr style="cursor: pointer;" class="table-row"><td>First_Name</td><td>I</td><td>Last_Name</td><td>1</td><td>Failed</td></tr><tr style="cursor: pointer;" class="table-row"><td>First_Name</td><td>I</td><td>Last_Name</td><td>1</td><td>Failed</td></tr>') ;
+	expect($('#student-table').html()).toEqual('<tr style="cursor: pointer;" class="table-row"><td>1</td><td>First_Name</td><td>I</td><td>Last_Name</td><td>1</td><td>Failed</td></tr><tr style="cursor: pointer;" class="table-row"><td>1</td><td>First_Name</td><td>I</td><td>Last_Name</td><td>1</td><td>Failed</td></tr>') ;
   });
 
   it("should show promotion when empty array", function() {
@@ -136,6 +127,7 @@ studentTest = function() {
 	student.StudentId = 1;
 	student.Cnp = "1921211272770";
 	student.SubjectId = 1;
+	student.Id=1;
 	return student;
 };
 

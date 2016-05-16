@@ -15,6 +15,9 @@ addStudentDefault = function (student, studentTr) {
 
 // All
 showAll = function (students) {
+    if (!$('#student-table').length) {
+        throw new IllegalStateException("Html with id #student-table does not exists")
+    }
     studentTable = $('#student-table');
     studentTable.empty();
     
@@ -40,6 +43,9 @@ showDetails = function (event) {
 
 // Financed
 showBudgeted = function (studentsBudgetDetails) {
+    if (!$('#student-table').length) {
+        throw new IllegalStateException("Html with id #student-table does not exists")
+    }
     studentTable = $('#student-table');
     studentTable.empty();
 
@@ -60,6 +66,9 @@ showBudgeted = function (studentsBudgetDetails) {
 
 // Promotion
 showPromotion = function (studentsPromotionDetails) {
+    if (!$('#student-table').length) {
+        throw new IllegalStateException("Html with id #student-table does not exists")
+    }
     studentTable = $('#student-table');
     studentTable.empty();
 
